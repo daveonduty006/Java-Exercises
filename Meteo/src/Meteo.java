@@ -14,12 +14,20 @@ public class Meteo {
 
 	public static void main(String[] args) throws IOException {
 		int temp;
-		String saisie;
+		String message, saisie;
 		BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
 		//
 		System.out.print("\nEntrez la température en celsius d'aujourd'hui: ");
 		saisie = clavier.readLine().replace("C", "").replace("c", "");
 		temp = Integer.parseInt(saisie);
+		//
+		if (temp >= 0) {
+			if (temp >= 20) {
+				message = "Il faut chaud";
+			}else {
+				message = "Il ne fait ni chaud ni froid";
+			}
+		}
 		
 		
 		
