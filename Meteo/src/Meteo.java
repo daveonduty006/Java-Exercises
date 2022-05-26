@@ -27,6 +27,7 @@ public class Meteo {
 			}else {
 				message = "Il ne fait ni chaud ni froid";
 			}
+			allo
 		}
 		
 		
