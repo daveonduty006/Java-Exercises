@@ -1,0 +1,39 @@
+/*
+* CalculCout.java
+* Ce programme lit une quantité et un prix, puis calcule et affiche
+* le coût brut de l'achat, le montant du rabais et le coût net de l'achat
+* Auteur :
+* Date: 
+*/
+
+import javax.swing.*;
+
+public class CalculCout {
+
+	public static void main(String[] args) {
+		final double TAUX_RABAIS = 0.1;
+		final int SEUIL_RABAIS = 5;
+		int qte;
+		double prixUnit, coutBrut, coutNet, montantRabais=0;
+		String saisie;
+		//
+		saisie = JOptionPane.showInputDialog("Quantité achetée du produit: ");
+		qte = Integer.parseInt(saisie);
+		saisie = JOptionPane.showInputDialog("Prix unitaire du produit: ");
+		prixUnit = Double.parseDouble(saisie);
+		//
+		coutBrut = qte * prixUnit;		
+		if (qte > SEUIL_RABAIS) {
+			montantRabais = coutBrut * TAUX_RABAIS;
+			coutNet = coutBrut - montantRabais;
+		}else {
+			coutNet = coutBrut;
+		}
+		//
+		JOptionPane.showMessageDialog(null, "Coût Brut: "+coutBrut+
+           "$\nMontant du Rabais: "+montantRabais+"$\nCoût Net: "+coutNet+"$");
+		//
+		System.exit(0);
+	}
+
+}
