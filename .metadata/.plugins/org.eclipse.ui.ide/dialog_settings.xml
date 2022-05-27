@@ -17,13 +17,14 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
-			<item value="C:\Users\e2295349\Desktop\Java-Exercises\Meteo"/>
-			<item value="C:\Users\e2295349\Desktop\Java-Exercises\Facture"/>
-			<item value="C:\Users\e2295349\Desktop\Java-Exercises\Exemples_Tests"/>
+			<item value="C:\Users\e2295349\Desktop\Java-Exercises\CalculCout"/>
 			<item value="C:\Users\e2295349\Desktop\Java-Exercises\Exemples_Tableaux_et_Methodes"/>
 			<item value="C:\Users\e2295349\Desktop\Java-Exercises\Exemples_Boucles"/>
+			<item value="C:\Users\e2295349\Desktop\Java-Exercises\Exemples_Tests"/>
+			<item value="C:\Users\e2295349\Desktop\Java-Exercises\Logement"/>
+			<item value="C:\Users\e2295349\Desktop\Java-Exercises\Meteo"/>
+			<item value="C:\Users\e2295349\Desktop\Java-Exercises\Facture"/>
 			<item value="C:\Users\e2295349\Desktop\Java-Exercises\CalculSalaire"/>
-			<item value="C:\Users\e2295349\Desktop\Java-Exercises\CalculCout"/>
 			<item value="C:\Users\David\eclipse-workspace\Exemples_Tableaux_et_Methodes"/>
 			<item value="C:\Users\David\eclipse-workspace\Exemples_Boucles"/>
 			<item value="C:\Users\David\eclipse-workspace\Exemples_Tests"/>
