@@ -3,6 +3,8 @@
  * trouver et afficher la note la plus élevée, 
  * calculer et afficher la moyenne de la classe. 
  * De plus, on désire afficher le nombre d'élèves qui ont coulé (note moins de 60).
+ * Auteur: David Normandin
+ * Date: 2022-05-27
 */
 
 import java.text.*;
