@@ -1,10 +1,10 @@
 /*
 * Logement.java
 * Programme qui lit un codeLogement, puis affiche un message:
-* -codeLogement = 'P' affiche "Vous êtes propriétaire";
-* -codeLogement = 'L' affiche "Vous êtes locataire";
+* -codeLogement = 'P' affiche "Vous etes proprietaire";
+* -codeLogement = 'L' affiche "Vous etes locataire";
 * -codeLogement = 'E' ou 'X' affiche "Vous habitez chez vos parents";
-* -autre valeur de codeLogement affiche "Vous êtes un sans-abri"
+* -autre valeur de codeLogement affiche "Vous etes un sans-abri"
 * Auteur: David Normandin
 * Date: 2022-05-27
 */
@@ -22,17 +22,17 @@ public class Logement {
 		//
 		switch(codeLogement) {
 			case 'P':
-				messageSortie = "Vous êtes propriétaire";
+				messageSortie = "Vous etes proprietaire";
 				break;
 			case 'L':
-				messageSortie = "Vous êtes locataire";
+				messageSortie = "Vous etes locataire";
 				break;
 			case 'E':
 			case 'X':
 				messageSortie = "Vous habitez chez vos parents";
 				break;
 			default:
-				messageSortie = "Vous êtes sans domicile fixe";			
+				messageSortie = "Vous etes sans domicile fixe";			
 		}
 		//
 		JOptionPane.showMessageDialog(null, messageSortie);

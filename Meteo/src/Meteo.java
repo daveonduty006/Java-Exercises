@@ -15,7 +15,8 @@ public class Meteo {
 	public static void main(String[] args) throws IOException {
 		int temp;
 		String message, saisie;
-		BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
+		BufferedReader clavier = new BufferedReader(new InputStreamReader(
+				System.in));
 		//
 		System.out.print("\nEntrez la temperature en celsius: ");
 		saisie = clavier.readLine().replace("C", "").replace("c", "");
