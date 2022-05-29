@@ -17,6 +17,7 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\David\eclipse-workspace"/>
 			<item value="C:\Users\e2295349\Desktop\Java-Exercises\CalculCout"/>
 			<item value="C:\Users\e2295349\Desktop\Java-Exercises\Exemples_Tableaux_et_Methodes"/>
 			<item value="C:\Users\e2295349\Desktop\Java-Exercises\Exemples_Boucles"/>
@@ -32,5 +33,9 @@
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
 			<item value=""/>
 		</list>
+	</section>
+	<section name="NewWizardAction">
+	</section>
+	<section name="BasicNewProjectResourceWizard">
 	</section>
 </section>
