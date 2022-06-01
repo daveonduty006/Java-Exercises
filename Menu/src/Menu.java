@@ -1,4 +1,5 @@
 /*
+ * Menu.java
  * Programme offrant a l'usager un menu. 
  * Lorsque l'usager selectionne :
  * -le choix 1 affiche "Choix 1";
