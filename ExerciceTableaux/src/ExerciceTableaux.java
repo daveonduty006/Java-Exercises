@@ -3,8 +3,8 @@
  * (il y a plusieurs clients a traiter, 
  * mais on suppose qu'un client n'effectue qu'un seul achat) et qui va afficher 
  * (apres avoir traite tous les clients de la journee) la quantite totale vendue pour chaque produit.
- * Auteur:
- * Date: 
+ * Auteur: David Normandin
+ * Date: 2022-06-03
  */
 
 import javax.swing.*;
