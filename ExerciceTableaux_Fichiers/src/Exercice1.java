@@ -31,7 +31,7 @@ public class Exercice1 {
 		while (i < tailleTableaux && ligne != null) {
 			elems= ligne.split(";");
 			tabNoProd[i]= Integer.parseInt(elems[0]);
-			tabPrixProd[i]= Double.parseDouble(elems[0]);
+			tabPrixProd[i]= Double.parseDouble(elems[1]);
 			++i;
 			ligne= ficProd.readLine();
 		}

@@ -1,23 +1,18 @@
-INDEX VERSION 1.131+U:\920_conceptProg2\Java-Exercises\.metadata\.plugins\org.eclipse.jdt.core
-4033532225.index
-3422337810.index
-3350372198.index
-3430291386.index
-1713473334.index
-1252196695.index
-4244162946.index
-2150280840.index
-3532353953.index
-1865797976.index
-1535192420.index
-4146961950.index
-814960102.index
-2491062144.index
+INDEX VERSION 1.131+C:\Users\David\eclipse-workspace\.metadata\.plugins\org.eclipse.jdt.core
 534078045.index
-4079859015.index
-1678586926.index
-3766781035.index
+1865797976.index
 421789490.index
+3532353953.index
 516317092.index
 1766394813.index
-4121110836.index
+3350372198.index
+1252196695.index
+3422337810.index
+3766781035.index
+2150280840.index
+814960102.index
+3430291386.index
+1535192420.index
+4146961950.index
+2491062144.index
+4033532225.index
