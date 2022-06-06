@@ -1,5 +1,5 @@
 
-public class GestionCours {
+public class TestCours {
 
 	public static void main(String[] args) {
 		Cours cours2345= new Cours("INFO 2345", 3);
