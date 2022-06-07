@@ -66,7 +66,11 @@ public class Livre {
 	
 	//Retourner le contenu d'un object selon un format voulu
 	public String toString() {
-		return (this.num+"\t"+this.titre+"\t"+this.pages+"\n");
+		if (this.titre.length() > 17) {
+		return (this.num+"\t"+this.titre+"\t"+this.pages+"\n");	
+		}else {
+		return (this.num+"\t"+this.titre+"\t\t"+this.pages+"\n");
+		}
 	}
 	
 }

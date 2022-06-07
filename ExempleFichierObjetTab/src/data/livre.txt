@@ -1,0 +1,5 @@
+100;Titanic;500
+200;La cuisine de ma mère;850
+300;Pinocchio;1000
+400;Langage Java;600
+500;HTML5 pour les nulles;200
