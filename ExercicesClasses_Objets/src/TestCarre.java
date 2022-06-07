@@ -1,11 +1,11 @@
 /*
- * saisir au clavier la couleur et le côté de 4 objets Carre
- * afficher la couleur et le côté de chaque carré demandé
- * rejeter une valeur négative pour le côté en affichant un message approprié (on ne crée
+ * saisir au clavier la couleur et le cï¿½tï¿½ de 4 objets Carre
+ * afficher la couleur et le cï¿½tï¿½ de chaque carrï¿½ demandï¿½
+ * rejeter une valeur nï¿½gative pour le cï¿½tï¿½ en affichant un message appropriï¿½ (on ne crï¿½e
  * pas l'objet dans ce cas)
- * calculer et afficher le périmètre de chaque objet Carre créé
- * comptabiliser le nombre de carrés de couleur rouge et l’afficher
- * comptabiliser le nombre d’erreurs et l’afficher
+ * calculer et afficher le pï¿½rimï¿½tre de chaque objet Carre crï¿½ï¿½
+ * comptabiliser le nombre de carrï¿½s de couleur rouge et lï¿½afficher
+ * comptabiliser le nombre dï¿½erreurs et lï¿½afficher
  */
 
 import java.io.*;
@@ -15,42 +15,51 @@ public class TestCarre {
 
 	public static void main(String[] args) throws IOException {
 		final int NB_CARRES= 4;
-		int erreur=0;
+		int erreur=0, nbCarreRouge=0;
 		Carre tabCarres[]= new Carre[NB_CARRES];
 		JTextArea sortie = new JTextArea();
 		//
-		for (int i=1; i < tabCarres.length; i++) {
-			erreur= instanceCarre(tabCarres, i, sortie, erreur);
-		}
+		for (int i=0; i < NB_CARRES; i++) {
+			instanceCarre(tabCarres, i, sortie);
+			if (tabCarres[i] != null) {
+				if ("rouge".equals(tabCarres[i].getCouleur())) {
+					nbCarreRouge++;
+				}
+			}else {
+				erreur++;
+			}	
+		}		
 		//
-		
-	
+		sortie.append("\n"+nbCarreRouge+" carre(s) de couleur rouge, "+
+			erreur+" erreur(s)");
+		JOptionPane.showMessageDialog(null, sortie, "Creation de carres",
+				JOptionPane.PLAIN_MESSAGE);
+		System.exit(0);
+		//
 	}
 	
-	static int instanceCarre(Carre t[], int i, JTextArea s, int e) 
+	static void instanceCarre(Carre t[], int i, JTextArea s) 
 			throws IOException {
 		int cote;
 		String couleur;
 		BufferedReader clavier= new BufferedReader(new InputStreamReader(
 			System.in));
 		//
-		System.out.println("Entrez la couleur du carre no "+i);
+		System.out.print("Entrez la couleur du carre no "+(i+1)+": ");
 		couleur= clavier.readLine().toLowerCase();
-		System.out.println("Entrez la largeur de ses cotes");
+		System.out.print("Entrez la largeur de ses cotes: ");
 		cote= Integer.parseInt(clavier.readLine());
-		s.append("Pour "+i+",vous avez demande un carre "+couleur+
+		s.append("Pour "+(i+1)+", vous avez demande un carre "+couleur+
 			" de largeur "+cote+"\n");
 		//
 		if (cote > 0) {
 			Carre carre= new Carre(couleur, cote);
-			t[i-1]= carre;
-			s.append("Carre cree, son perimetre est de "+
+			t[i]= carre;
+			s.append("Carre cree, son perimetre est "+
 				carre.getPerimetre()+"\n\n");
 		}else {
-			s.append("------> Cote invalide, carre non-cree\n\n");
-			e++;
+			s.append("-----> Cote invalide, carre non-cree\n\n");
 		}
-		return e;
 	}
 
 }
