@@ -3,36 +3,27 @@ import java.text.*;
 public class Vin {
 	
 	// attributs de classe
+	public static enum typesCouleur{ROUGE, BLANC, ROSE};
 	public static int nbVins= 0;
 	public static double prixTotal= 0;
-	public static String tabTypes[]= {"vin rouge", "vin blanc", "vin ros√©"};
 	
 	// attributs d'instance	
 	private int type;
 	private double prix;
 	private String nom, origine;
 	
-	// constructeur de vin rouge (par d√©faut)	
+	// constructeur paramÈtrÈ de vin rouge
 	Vin(String nom, String origine, double prix) { 
-		this.nom= nom;
-		this.origine= origine;
-		this.prix= prix;
-		this.type= 1;}
+		this(nom, 1, origine, prix);}
 	
-	// constructeur par 4 param√®tres	
+	// constructeur par 4 paramËtres	
 	Vin(String nom, int type, String origine, double prix) {
 		this.nom= nom;
 		this.type= type;
 		this.origine= origine;
 		this.prix= prix;}
 	
-	// accesseurs
-	private String getStringVin() {
-		try {
-			return tabTypes[this.type-1];
-		}catch (ArrayIndexOutOfBoundsException e) {
-			return "{type invalide}";}}
-	
+	// accesseurs	
 	public String getNom() {
 		return this.nom;}
 	
@@ -58,9 +49,16 @@ public class Vin {
 	public void setPrix(double nouveauPrix) {
 		this.prix= nouveauPrix;}
 	
-	// autres m√©thodes
+	// autres methodes
+	private String afficheCouleur() {
+		Vin.typesCouleur TYPE_COULEUR= typesCouleur.values()[this.type-1];
+		switch(TYPE_COULEUR) {
+		
+		}
+	}
+	
 	public String toString() {
-		String stringVin = this.getStringVin();
+		String stringVin = this.afficheCouleur();
 		DecimalFormat df= new DecimalFormat("0,00 $");
 		return this.nom+" est un "+stringVin+" de "+this.origine+
 			" et son prix est de "+df.format(this.prix);}

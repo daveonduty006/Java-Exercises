@@ -1,11 +1,11 @@
 import java.io.*;
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class GestionLivres {
 	
-	static final int NB_LIVRES= 30;
 	static final String FICHIER_LIVRES= "src/data/livre.txt";
-	static Livre biblio[];
+	static ArrayList<Livre> biblio;
 	static BufferedReader tmpLivres;
 	static JTextArea sortie;
 	
@@ -29,42 +29,37 @@ public class GestionLivres {
 
 	public static void chargerLivres() throws Exception {
 		try {
-			int i=0;
 			String ligne;
 			String elems[]= new String[3];
-			biblio= new Livre[NB_LIVRES];
+			biblio= new ArrayList<Livre>();
 			tmpLivres= new BufferedReader(new FileReader(FICHIER_LIVRES));	
 			ligne= tmpLivres.readLine();
-			while (i < NB_LIVRES && ligne != null) { 
+			while (ligne != null) { 
 				elems= ligne.split(";");
-				biblio[i++]= new Livre(Integer.parseInt(elems[0]), 
-					elems[1], Integer.parseInt(elems[2]));
+				biblio.add(new Livre(Integer.parseInt(elems[0]), 
+					elems[1], Integer.parseInt(elems[2])));
 				ligne= tmpLivres.readLine();
 			}			
 		}catch(FileNotFoundException e) {
-			System.out.println("Fichier introuvable, vÃ©rifiez le chemin et "+
+			System.out.println("Fichier introuvable, vérifiez le chemin et "+
 				"nom du fichier");			
 		}catch(IOException e) {
-			System.out.println("Un problÃ¨me est arrivÃ© lors de la manipulation"+ 
+			System.out.println("Un problème est arrivé lors de la manipulation"+ 
 				" du fichier");
 		}catch(Exception e) {
-			System.out.println("Un problÃ¨me est arrivÃ© lors du chargement du"+
+			System.out.println("Un problème est arrivé lors du chargement du"+
 				" fichier");
-		}finally { //execute si erreur ou pas
+		}finally { //exécute si erreur ou pas
 			tmpLivres.close();
 		}
 	}
 	
 	public static void afficherListeLivres() {
 		sortie= new JTextArea();
-		int taille= Livre.nbLivres;
 		sortie.append("\tLISTE DES LIVRES\n\n");
-		sortie.append("NUMÃ‰RO\tTITRE\t\tPAGES\n");
-		for (int i=0; i < taille; i++) {
-			sortie.append(biblio[i].toString());
-		}
+		sortie.append("NUMÉRO\tTITRE\t\tPAGES\n");
+		biblio.forEach((unLivre) -> sortie.append(unLivre.toString()));
 		JOptionPane.showMessageDialog(null, sortie, null, 
 			JOptionPane.PLAIN_MESSAGE);
 	}
 }
-
