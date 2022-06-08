@@ -40,14 +40,16 @@ public class GestionLivres {
 				biblio[i++]= new Livre(Integer.parseInt(elems[0]), 
 					elems[1], Integer.parseInt(elems[2]));
 				ligne= tmpLivres.readLine();
-			}
-			
+			}			
 		}catch(FileNotFoundException e) {
-			System.out.println("Fichier introuvable, vérifiez le chemin et nom du fichier");			
+			System.out.println("Fichier introuvable, vérifiez le chemin et "+
+				"nom du fichier");			
 		}catch(IOException e) {
-			System.out.println("Un problème est arrivé lors de la manipulation du fichier");
+			System.out.println("Un problème est arrivé lors de la manipulation"+ 
+				" du fichier");
 		}catch(Exception e) {
-			System.out.println("Un problème est arrivé lors du chargement du fichier");
+			System.out.println("Un problème est arrivé lors du chargement du"+
+				" fichier");
 		}finally { //execute si erreur ou pas
 			tmpLivres.close();
 		}
@@ -61,6 +63,7 @@ public class GestionLivres {
 		for (int i=0; i < taille; i++) {
 			sortie.append(biblio[i].toString());
 		}
-		JOptionPane.showMessageDialog(null, sortie, null, JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(null, sortie, null, 
+			JOptionPane.PLAIN_MESSAGE);
 	}
 }
