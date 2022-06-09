@@ -1,9 +1,10 @@
-import java.text.*;
+import java.text.DecimalFormat;
 
 public class Vin {
 	
 	// attributs de classe
-	public static enum typesCouleur{ROUGE, BLANC, ROSE};
+	public static final String TAB_TYPES[]= {"rouge", "blanc", "rosÃ©"};
+	public static DecimalFormat df= new DecimalFormat("0.00 $");
 	public static int nbVins= 0;
 	public static double prixTotal= 0;
 	
@@ -12,18 +13,20 @@ public class Vin {
 	private double prix;
 	private String nom, origine;
 	
-	// constructeur paramétré de vin rouge
+	// constructeur de vin rouge	
 	Vin(String nom, String origine, double prix) { 
 		this(nom, 1, origine, prix);}
 	
-	// constructeur par 4 paramètres	
+	// constructeur par 4 paramÃ¨tres	
 	Vin(String nom, int type, String origine, double prix) {
 		this.nom= nom;
 		this.type= type;
 		this.origine= origine;
-		this.prix= prix;}
+		this.prix= prix;
+		++nbVins;
+		prixTotal += this.prix;}
 	
-	// accesseurs	
+	// accesseurs
 	public String getNom() {
 		return this.nom;}
 	
@@ -47,19 +50,19 @@ public class Vin {
 		this.origine= nouvelleOrigine;}
 	
 	public void setPrix(double nouveauPrix) {
-		this.prix= nouveauPrix;}
+		prixTotal -= this.prix;
+		this.prix= nouveauPrix;
+		prixTotal += this.prix;}
 	
-	// autres methodes
+	// autres mÃ©thodes
 	private String afficheCouleur() {
-		Vin.typesCouleur TYPE_COULEUR= typesCouleur.values()[this.type-1];
-		switch(TYPE_COULEUR) {
-		
-		}
-	}
+		try {
+			return TAB_TYPES[this.type-1];
+		}catch (ArrayIndexOutOfBoundsException e) {
+			return "{type invalide}";}}
 	
 	public String toString() {
-		String stringVin = this.afficheCouleur();
-		DecimalFormat df= new DecimalFormat("0,00 $");
-		return this.nom+" est un "+stringVin+" de "+this.origine+
-			" et son prix est de "+df.format(this.prix);}
+		String couleur = this.afficheCouleur();
+		return this.nom+" est un vin "+couleur+" de "+this.origine+
+			" et son prix est de "+df.format(this.prix)+"\n";}
 }

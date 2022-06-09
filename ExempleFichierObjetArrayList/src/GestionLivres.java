@@ -41,15 +41,15 @@ public class GestionLivres {
 				ligne= tmpLivres.readLine();
 			}			
 		}catch(FileNotFoundException e) {
-			System.out.println("Fichier introuvable, vérifiez le chemin et "+
+			System.out.println("Fichier introuvable, vï¿½rifiez le chemin et "+
 				"nom du fichier");			
 		}catch(IOException e) {
-			System.out.println("Un problème est arrivé lors de la manipulation"+ 
+			System.out.println("Un problï¿½me est arrivï¿½ lors de la manipulation"+ 
 				" du fichier");
 		}catch(Exception e) {
-			System.out.println("Un problème est arrivé lors du chargement du"+
+			System.out.println("Un problï¿½me est arrivï¿½ lors du chargement du"+
 				" fichier");
-		}finally { //exécute si erreur ou pas
+		}finally { //exï¿½cute si erreur ou pas
 			tmpLivres.close();
 		}
 	}
@@ -57,7 +57,7 @@ public class GestionLivres {
 	public static void afficherListeLivres() {
 		sortie= new JTextArea();
 		sortie.append("\tLISTE DES LIVRES\n\n");
-		sortie.append("NUMÉRO\tTITRE\t\tPAGES\n");
+		sortie.append("NUMï¿½RO\tTITRE\t\tPAGES\n");
 		biblio.forEach((unLivre) -> sortie.append(unLivre.toString()));
 		JOptionPane.showMessageDialog(null, sortie, null, 
 			JOptionPane.PLAIN_MESSAGE);
