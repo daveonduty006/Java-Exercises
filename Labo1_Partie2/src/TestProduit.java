@@ -9,8 +9,9 @@ public class TestProduit {
 	static BufferedReader tmpProd;
 	static JTextArea sortie;
 	static int tabProdQte[];
+	static double profitJournee= 0;
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws IOException {
 		chargerProduits();
 		//
 		tabProdQte= new int[Produit.nbProd];
@@ -19,8 +20,8 @@ public class TestProduit {
 			reponse= traiterClients();
 		}while (reponse == 'O');
 		//
-		
-	}
+		afficherResultats();
+		System.exit(0);}
 	
 	//
 	public static void chargerProduits() throws IOException {
@@ -46,22 +47,23 @@ public class TestProduit {
 		JTextField num= new JTextField();
 		JTextField qte= new JTextField();
 		Object[] fields= {
-			"numÃ©ro du produit achetÃ©", num,
-			"quantitÃ© achetÃ©", qte};
+			"numéro du produit acheté", num,
+			"quantité achetée", qte};
 		//
-		JOptionPane.showConfirmDialog(null, fields, "FenÃªtre d'achat",
-			JOptionPane.OK_OPTION);
+		JOptionPane.showConfirmDialog(null, fields, "Fenêtre d'achat",
+			JOptionPane.PLAIN_MESSAGE);
 		//
 		position= rechercheTableau(num.getText());
 		if (position != -1) {
 			tabProdQte[position] += Integer.parseInt(qte.getText());
 			cout= tabProduits[position].getPrixProd() * 
 				  Double.parseDouble(qte.getText());
+			profitJournee += cout;
 			JOptionPane.showMessageDialog(null, 
-				"Le coÃ»t de cet achat est de "+Produit.df.format(cout),
-				"FenÃªtre de facturation", JOptionPane.PLAIN_MESSAGE);			
+				"Le coût de cet achat est de "+Produit.df.format(cout),
+				"Fenêtre de facturation", JOptionPane.PLAIN_MESSAGE);			
 		}else {
-			JOptionPane.showMessageDialog(null, "NumÃ©ro de produit invalide",
+			JOptionPane.showMessageDialog(null, "Numéro de produit invalide",
 				"Erreur", JOptionPane.PLAIN_MESSAGE);}
 		//
 		rep= JOptionPane.showInputDialog(
@@ -80,5 +82,21 @@ public class TestProduit {
 				pos= i;
 				trouve= true;}}
 		return pos;}
+	
+	//
+	public static void afficherResultats() {
+		sortie= new JTextArea();
+		sortie.append("Profits de la journée: "+
+			Produit.df.format(profitJournee)+"\n\n");
+		sortie.append("Numéro du\t\tQuantité\n");
+		sortie.append("produit\t\ttotale\n");
+		sortie.append("vendu\t\tvendue\n\n");
+		for (int i=0; i < Produit.nbProd; i++) {
+			sortie.append(tabProduits[i].getNumProd()
+				+"\t\t"+tabProdQte[i]+"\n");
+		}
+		//
+		JOptionPane.showMessageDialog(null, sortie, "RÉSULTATS DE LA JOURNÉE", 
+			JOptionPane.PLAIN_MESSAGE);} 
 	
 }

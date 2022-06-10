@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 public class Vin {
 	
 	// attributs de classe
-	public static final String TAB_TYPES[]= {"rouge", "blanc", "rosÃ©"};
+	public static final String TAB_TYPES[]= {"rouge", "blanc", "rosé"};
 	public static DecimalFormat df= new DecimalFormat("0.00 $");
 	public static int nbVins= 0;
 	public static double prixTotal= 0;

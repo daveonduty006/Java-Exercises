@@ -17,11 +17,11 @@ public class TestVin {
 		tabVins.get(2).setNom("Vino verde");
 		tabVins.get(2).setType(2);
 		tabVins.get(2).setOrigine(tabVins.get(0).getOrigine());
-		tabVins.add(new Vin("L'Ã©rabliÃ¨re", "QuÃ©bec", 15));
+		tabVins.add(new Vin("L'érablière", "Québec", 15));
 		//
 		sortie.append("\n");
 		prepareAffichage();
-		JOptionPane.showMessageDialog(null, sortie, "RÃ©sultats obtenus",
+		JOptionPane.showMessageDialog(null, sortie, "Résultats obtenus",
 				JOptionPane.PLAIN_MESSAGE);	
 		//
 		System.exit(0);}
@@ -29,8 +29,8 @@ public class TestVin {
 	public static void instancieVinsInitials() {
 		tabVins= new ArrayList<>();
 		tabVins.add(new Vin("MiamMiam", 2, "Espagne", 8.95));
-		tabVins.add(new Vin("DÃ©licieux", "France", 14.5));
-		tabVins.add(new Vin("MystÃ¨re", 3, "Californie", 10));}
+		tabVins.add(new Vin("Délicieux", "France", 14.5));
+		tabVins.add(new Vin("Mystère", 3, "Californie", 10));}
 	
 	public static void prepareAffichage() {
 		sortie.append("Voici les "+Vin.nbVins+" vins\n");
