@@ -4,6 +4,7 @@ public class Produit {
 	
 	// attributs de classe
 	public static DecimalFormat df= new DecimalFormat("0.00 $");
+	public static int nbProd= 0;
 
 	// attributs d'instance
 	private int numProd;
@@ -12,7 +13,8 @@ public class Produit {
 	// constructeur paramétré
 	public Produit(int numProd, double prixProd) {
 		this.numProd= numProd;
-		this.prixProd= prixProd;}
+		this.prixProd= prixProd;
+		nbProd++;}
 	
 	// accesseurs
 	public int getNumProd() {
