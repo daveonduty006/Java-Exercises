@@ -1,41 +1,28 @@
 public class Livre {
+	
+	String tabCategs[] = {"Horreur","Drame","ComÃ©die","Jeunesse","PoÃ©sie","Biographie","Cuisine"};
+	
 	//Attributs d'instances
 	private int num;
 	private String titre;
 	private int pages;
+	private int categorie;//0, 1, 2 ou 3
 	
 	public static int nbLivres = 0; //Attribut de classe
 	
 	//Les constructeurs
-	Livre(){ //Par défaut
+	Livre(){ //Par dÃ©faut
 		++nbLivres;
 	}
 	
-	/*Livre(int num, String titre, int pages){ //Paramètré
-		this.num = num;
-		this.titre = titre;
-		this.pages = pages;
-		++nbLivres;
-	}*/
-	
-	Livre(int num, String titre, int pages){ //Paramètré
+	Livre(int num, String titre, int pages, int categorie){ //ParamÃ©trÃ©
 		this.setNum(num);
 		this.titre = titre;
 		this.setPages(pages);
+		this.setCategorie(categorie);
 		++nbLivres;
 	}
 	
-	Livre(int num, String titre){
-		this(num, titre,0);//Appel au constructeur à 3 paramètres
-	}
-	
-	Livre(Livre unLivre){ //De copie
-		this.num = unLivre.num;
-		this.titre = unLivre.titre;
-		this.pages = unLivre.pages;
-		++nbLivres;
-	}
-
 	//Les accesseurs (getter)
 	public int getNum() {
 		return this.num;
@@ -49,13 +36,16 @@ public class Livre {
 		return this.pages;
 	}
 	
+	public int getCategorie() {
+		return this.categorie;
+	}
 	//Les mutateurs (setter)
 	
 	public void setNum(int num) {
 		if(num > 0) {
 			this.num = num;
 		} else {
-			System.out.println("Numéro de livre invalide !");
+			System.out.println("NumÃ©ro de livre invalide !");
 		}
 	}
 	
@@ -70,25 +60,31 @@ public class Livre {
 			System.out.println("Nombre de pages invalide !");
 		}
 	}
+
+	public void setCategorie(int categorie){
+		int nbCategs = tabCategs.length;
+		if(categorie >= 0 && categorie < nbCategs){
+			this.categorie = categorie; 
+		} else {
+			System.out.println("CatÃ©gorie invalide !");
+		}
+	}
+
+	public String getCategorieString(){
+		return tabCategs[this.categorie];
+	}
+
+	public boolean equals(Object obj) {
+		Livre autreLivre = (Livre) obj;
+		if (this.num == autreLivre.num) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	//Retourner le contenu d'un objet selon un format voulu
 	public String toString() {
-		String reponse = this.num+"     "+this.titre+Utilitaires.ajouterEspacesFin(50, this.titre)+this.pages+"";
-		return reponse;
-		
-		//CAS 1
-				//return (this.titre.length() > 17) ? this.num+"\t"+this.titre+"\t"+this.pages+"\n" : this.num+"\t"+this.titre+"\t\t"+this.pages+"\n";
-				
-		//CAS 2
-		//String rep = (this.titre.length() > 17) ? this.num+"\t"+this.titre+"\t"+this.pages+"\n" : this.num+"\t"+this.titre+"\t\t"+this.pages+"\n";
-		//return rep;
-		//CAS 3
-		/*if(this.titre.length() > 17) {
-			return this.num+"\t"+this.titre+"\t"+this.pages+"\n";
-		}else {
-			return this.num+"\t"+this.titre+"\t\t"+this.pages+"\n";
-		}*/
-		
+		return (this.titre.length() > 17) ? this.num+"\t"+this.titre+"\t"+this.pages+"\t"+getCategorieString()+"\n" : this.num+"\t"+this.titre+"\t\t"+this.pages+"\t"+getCategorieString()+"\n";
 	}
-	
 }

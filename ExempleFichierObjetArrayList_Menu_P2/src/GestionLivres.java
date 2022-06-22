@@ -1,86 +1,212 @@
+import java.awt.Font;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.*;
 
 public class GestionLivres {
 	static final String FICHIER_LIVRES = "src/donnees/livres.txt";
-	static List<Object> biblio; 
-	static BufferedReader tmpLivres; 
+	static ArrayList<Livre> biblio; 
+	static BufferedReader tmpLivresRead;
+	static BufferedWriter tmpLivresWrite; 
 	static JTextArea sortie;
+
+	public static int menuGeneral(){
+		String contenu="1-Lister\n2-Ajouter un livre\n3-Enlever un livre\n4-Lister par catÃ©gorie\n5-Modifier un livre\n6-Terminer\n\n";
+		contenu+="Entrez votre choix parmis[1-6] : ";
+		return Integer.parseInt(JOptionPane.showInputDialog(null, contenu, "MENU GESTION LIVRES",JOptionPane.PLAIN_MESSAGE));
+	}
 	
-	/* public static void chargerLivres() throws Exception {
+	public static int menuModifier() {
+		String contenu = "1-Titre\n2-Pages\n3-CatÃ©gorie\n4-Terminer\n\n";
+		contenu += "Entrez votre choix parmis[1-4] : ";
+		return Integer
+				.parseInt(JOptionPane.showInputDialog(null, contenu, "MENU GESTION LIVRES", JOptionPane.PLAIN_MESSAGE));
+	}
+
+	public static void chargerLivres() throws Exception {
 		try {
 			String ligne;
-			String elems[] = new String[3];
+			String elems[] = new String[4];
 			biblio = new ArrayList<Livre>();
-			tmpLivres = new BufferedReader(new FileReader(FICHIER_LIVRES));
-			ligne = tmpLivres.readLine();//Lire la première ligne du fichier
+			tmpLivresRead = new BufferedReader(new FileReader(FICHIER_LIVRES));
+			ligne = tmpLivresRead.readLine();//Lire la premiÃ©re ligne du fichier
 			while (ligne != null) {//Si ligne == null alors ont a atteint la fin du fichier
-				elems = ligne.split(";");//elems[0] contient le numéro du livre;elems[1] le titre et elems[2] les pages
-				biblio.add(new Livre(Integer.parseInt(elems[0]), elems[1], Integer.parseInt(elems[2])));
-				ligne = tmpLivres.readLine();
+				elems = ligne.split(";");//elems[0] contient le numï¿½ro du livre;elems[1] le titre et elems[2] les pages
+				biblio.add(new Livre(Integer.parseInt(elems[0]), elems[1], Integer.parseInt(elems[2]), Integer.parseInt(elems[3])));
+				ligne = tmpLivresRead.readLine();
 			}//fin while
 			
 		} catch (FileNotFoundException e) {
-			System.out.println("Fichier introuvable. Vérifiez le chemin et nom du fichier.");
+			System.out.println("Fichier introuvable. VÃ©rifiez le chemin et nom du fichier.");
 		}
 		catch (IOException e) {
-			System.out.println("Un problème est arrivé lors de la manipulation du fichier. Vérifiez vos données.");
+			System.out.println("Un problÃ©me est arrivÃ© lors de la manipulation du fichier. Vï¿½rifiez vos donnï¿½es.");
 		}catch (Exception e) { 
-			System.out.println("Un problème est arrivé lors du chargement du fichier. Contactez l'administrateur.");
-		}finally {//Exécuté si erreur ou pas
-			tmpLivres.close();
+			System.out.println("Un problÃ©me est arrivÃ© lors du chargement du fichier. Contactez l'administrateur.");
+		}finally {//ExÃ©cutÃ© si erreur ou pas
+			tmpLivresRead.close();
 		}
-	}*/
+	}
 	
-	public static void afficherListeLivres() {
-		String espaces = Utilitaires.ajouterEspacesDebut(50, "TITRE");
-		String titre=Utilitaires.ajouterEspacesDebut(50, "LISTE DES LIVRES")+"LISTE DES LIVRES";
-		String colonnes = "NUMÉRO"+espaces+"TITRE"+espaces+"PAGES";
+	public static void afficherEntete(){
 		sortie = new JTextArea();
-		sortie.append(titre+"\n\n");
-		sortie.append(colonnes+"\n");
-		biblio.forEach((unLivre) ->{sortie.append(unLivre.toString()); sortie.append("\n");});	
+		sortie.setFont(new Font("monospace", Font.PLAIN, 12));
+		sortie.append("\t\tLISTE DES LIVRES\n\n");
+		sortie.append("NUMÃ‰RO\tTITRE\t\tPAGES\tCATÃ‰GORIE\n");
+	}
+
+	public static void listerLivres() {
+		//double total=0;
+		afficherEntete();
+		biblio.forEach((unLivre) -> {
+			sortie.append(unLivre.toString());
+			//Code de la fonction. Pour obtenir une valeur de l'objet unLivre
+			//vous devez faire appel Ã  une des mÃ©thodes getXXX de la classe.
+			//Exemple si un livre avait un prix. Calculer le total de tous les livres
+			//total += unLivre.getPrix();
+			//Pour calculer le total de tous les livres Jeunesse
+			// if(unLivre.getCategorie() == 3){total += unLivre.getPrix();}
+		});
+		sortie.append("Nombre de livres = "+biblio.size());	
 		JOptionPane.showMessageDialog(null, sortie, null, JOptionPane.PLAIN_MESSAGE);
 	}
-	
-	public static int menu() {
-		String options="1-Lister les livres\n2-Ajouter un livre\n3-Retirer un livre\n";
-		options+="4-Mettre à jour un livre\n5-Terminer\nEntrez votre choix\n";
-		return Integer.parseInt(JOptionPane.showInputDialog(null,options,"MENU PRINCIPAL",JOptionPane.PLAIN_MESSAGE));
+
+	public static void afficherMessage(String msg){
+		JOptionPane.showMessageDialog(null, msg, "MESSAGES", JOptionPane.PLAIN_MESSAGE);
+	}
+
+	public static void ajouterUnLivre() {
+		int num = Integer
+				.parseInt(JOptionPane.showInputDialog(null, "Entrez le numÃ©ro", "AJOUTER UN LIVRE", JOptionPane.PLAIN_MESSAGE));
+		String titre = JOptionPane.showInputDialog(null, "Entrez le titre", "AJOUTER UN LIVRE",
+						JOptionPane.PLAIN_MESSAGE);
+		int pages = Integer
+				.parseInt(JOptionPane.showInputDialog(null, "Entrez le nombre de pages", "AJOUTER UN LIVRE", JOptionPane.PLAIN_MESSAGE));
+		int categorie = Integer
+				.parseInt(JOptionPane.showInputDialog(null, "Entrez la catÃ©gorie", "AJOUTER UN LIVRE", JOptionPane.PLAIN_MESSAGE));
+		biblio.add(new Livre(num, titre, pages, categorie));
+	} 
+
+	public static void enleverUnLivre() {
+		int num = Integer
+				.parseInt(JOptionPane.showInputDialog(null, "Entrez le numÃ©ro", "ENLEVER UN LIVRE", JOptionPane.PLAIN_MESSAGE));
+		biblio.removeIf((unLivre) -> unLivre.getNum() == num);
+	}
+
+	static int cptCategs = 0;
+
+	public static void listerLivresParCategorie() {
+		int categorie = Integer
+				.parseInt(JOptionPane.showInputDialog(null, "Entrez la catÃ©gorie", "LISTER DES LIVRES PAR CATÃ‰GORIE",
+						JOptionPane.PLAIN_MESSAGE));
+		afficherEntete();
+
+		biblio.forEach((unLivre) -> {
+			if(unLivre.getCategorie() == categorie){
+				sortie.append(unLivre.toString());
+				++cptCategs;
+			}
+		});	
+		sortie.append("Nombre de livres = " + cptCategs);
+		JOptionPane.showMessageDialog(null, sortie, null, JOptionPane.PLAIN_MESSAGE);
+	}
+
+	public static Livre rechercherLivre(int num){
+		int pos;
+		Livre livreBidon = new Livre();
+		livreBidon.setNum(num);
+		pos = biblio.indexOf(livreBidon);// -1 si pas trouvÃ©
+		if (pos == -1){
+			afficherMessage("Le numÃ©ro du livre est introuvable.");
+			return null;
+		}
+		Livre livreTrouve = biblio.get(pos);
+		return livreTrouve;
+	}
+
+	public static void modifierUnLivre(){
+		int choix;
+		int num = Integer
+				.parseInt(JOptionPane.showInputDialog(null, "Entrez le numÃ©ro", "MODIFIER UN LIVRE", JOptionPane.PLAIN_MESSAGE));
+		Livre livreTrouve = rechercherLivre(num);
+		if(livreTrouve == null){
+			return;
+		}
+		do{
+			choix = menuModifier();
+			switch(choix){
+				case 1 :
+				   String titre = JOptionPane.showInputDialog(null, "Entrez le nouveau titre", "AJOUTER UN LIVRE",
+						JOptionPane.PLAIN_MESSAGE);
+					livreTrouve.setTitre(titre);
+					break;
+				case 2 :
+					int pages = Integer
+					.parseInt(JOptionPane.showInputDialog(null, "Entrez le nouveau nombre de pages", "MODIFIER UN LIVRE", JOptionPane.PLAIN_MESSAGE));
+					livreTrouve.setPages(pages);
+					break;
+				case 3 :
+					int categorie = Integer
+					.parseInt(JOptionPane.showInputDialog(null, "Entrez la nouvelle catÃ©gorie", "MODIFIER UN LIVRE", JOptionPane.PLAIN_MESSAGE));
+					livreTrouve.setCategorie(categorie);
+					break;
+				case 4:
+					break;
+				default :
+					afficherMessage("Choix invalide. Les option sont [1-4] !");
+					break;
+
+			}
+		} while(choix != 4);
 	}
 	
-	public static void montrerMessage(String msg) {
-		JOptionPane.showMessageDialog(null, msg, "MESSAGES", JOptionPane.PLAIN_MESSAGE);	
+	static String ligne="";
+	public static void sauvegarderLivres() throws IOException{
+		
+		// Utiliser ceci pour ajouter des donnÃ©es Ã  la fin du fichier
+		// (FICHIER_LIVRES, true)
+		tmpLivresWrite = new BufferedWriter(new FileWriter(FICHIER_LIVRES));
+		biblio.forEach((unLivre) -> {
+			ligne=unLivre.getNum()+";"+unLivre.getTitre()+";"+unLivre.getPages()+";"+unLivre.getCategorie();
+			try {
+				tmpLivresWrite.write(ligne);
+				tmpLivresWrite.newLine();
+			} catch (IOException e) {
+				System.out.println("ProblÃ¨me d'Ã©criture dans le fichier");
+			}
+		});
+		tmpLivresWrite.close();
 	}
-    
+
 	public static void main(String[] args) throws Exception {
 		int choix;
-		boolean tab[]= new boolean[3];
-		biblio = new ArrayList<Object>();
-		Utilitaires.chargerFichierText(Utilitaires.FICHIER_DONNEES, ";", biblio, 'L');
+		chargerLivres();
 		do {
-			choix = menu();
-			switch(choix) {
-				case 1: 	afficherListeLivres();
-								break;
-				case 2: 	//montrerMessage("En phase de développement");
-					montrerMessage(Date.validerDate(31, 6, 2022,tab));
-								
-								break;
-				case 3: 	montrerMessage("En phase de développement");
-								break;
-				case 4: 	montrerMessage("En phase de développement");
-								break;
-				case 5: 	montrerMessage("Merci d'avoir utilisé notre système");
-								break; 	
-				default :   montrerMessage("Votre choix est invalide !");
-								break;				
+			choix = menuGeneral();
+			switch(choix){
+				case 1 : 
+					listerLivres();
+					break;
+				case 2 : 
+					ajouterUnLivre();
+					break;
+				case 3 : 
+					enleverUnLivre();
+					break;
+				case 4 : 
+					listerLivresParCategorie();
+					break;
+				case 5 : 
+					modifierUnLivre();
+					break;
+				case 6 :
+					sauvegarderLivres();
+					afficherMessage("Merci d'avoir utilisÃ© notre systÃ¨me");
+					break;
+				default :
+					afficherMessage("Choix invalide. Les option sont [1-6] !");
+					break;
 			}
-		} while(choix != 5);
-
+		} while(choix != 6);
 	}
-
 }
