@@ -10,7 +10,7 @@ public class GestionLivres {
 	static BufferedWriter tmpLivresWrite; 
 	static JTextArea sortie;
 
-	public static int menuGeneral(){
+	public static int menuGeneral() {
 		String contenu="1-Lister\n2-Ajouter un livre\n3-Enlever un livre\n4-Lister par catégorie\n5-Modifier un livre\n6-Terminer\n\n";
 		contenu+="Entrez votre choix parmis[1-6] : ";
 		return Integer.parseInt(JOptionPane.showInputDialog(null, contenu, "MENU GESTION LIVRES",JOptionPane.PLAIN_MESSAGE));

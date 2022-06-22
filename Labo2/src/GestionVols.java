@@ -10,7 +10,7 @@ public class GestionVols {
 	static ArrayList<Vol> tabVols;
 	
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
 		chargerVols();
 
 	}
