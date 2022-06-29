@@ -41,10 +41,14 @@ public class GestionRadios {
 				case 5:
 					chercherRadio();
 					break;
+				case 6:
+					afficherMessage("Merci d'avoir utilisÃ© notre systÃ¨me");
+					break;
 				default:
 					afficherMessage("Choix invalide. Les options sont [1-6]!");
 			}
 		}while(choix != 6);
+		System.exit(0);
 	}
 	
 	private static void afficherMessage(String msg) {
@@ -56,7 +60,7 @@ public class GestionRadios {
 		sortie = new JTextArea();
 		sortie.setFont(new Font("monospace", Font.PLAIN, 12));
 		sortie.append("\t\tLISTE DES RADIOS\n\n");
-		sortie.append("MARQUE\tMODÈLE\tCD\tCASSETTE\tMP3\tPRIX   \n");
+		sortie.append("MARQUE\tMODï¿½LE\tCD\tCASSETTE\tMP3\tPRIX   \n");
 	}
 	
 	public static int menu() {
@@ -89,11 +93,11 @@ public class GestionRadios {
 				ligne = tmpRadiosRead.readLine();
 			}			
 		}catch (FileNotFoundException e) {
-			System.out.println("Fichier introuvable. Vérifiez le chemin et nom du fichier.");
+			System.out.println("Fichier introuvable. Vï¿½rifiez le chemin et nom du fichier.");
 		}catch (IOException e) {
-			System.out.println("Un problème est arrivé lors de la manipulation du fichier. Vérifiez vos données.");
+			System.out.println("Un problï¿½me est arrivï¿½ lors de la manipulation du fichier. Vï¿½rifiez vos donnï¿½es.");
 		}catch (Exception e) { 
-			System.out.println("Un problème est arrivé lors du chargement du fichier. Contactez l'administrateur.");
+			System.out.println("Un problï¿½me est arrivï¿½ lors du chargement du fichier. Contactez l'administrateur.");
 		}finally {
 			tmpRadiosRead.close();
 		}
@@ -140,7 +144,7 @@ public class GestionRadios {
 	public static void ajouterRadio() {
 		String marque= JOptionPane.showInputDialog(null, "Entrez la marque: ", 
 			"AJOUT D'UNE NOUVELLE RADIO", JOptionPane.PLAIN_MESSAGE);
-		String modele= JOptionPane.showInputDialog(null, "Entrez le modèle: ", 
+		String modele= JOptionPane.showInputDialog(null, "Entrez le modï¿½le: ", 
 			"AJOUT D'UNE NOUVELLE RADIO", JOptionPane.PLAIN_MESSAGE);
 		int cd= Integer.parseInt(
 			JOptionPane.showInputDialog(null, "Entrez le code pour lecteur cd: ", 
