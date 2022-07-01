@@ -8,7 +8,11 @@ public class Vol implements Comparable<Vol> {
 	private String destination;
 	private Date depart;
 
-	// constructeur par 4 paramètres
+	// constructeurs
+	Vol(int numVol) {
+		this.numVol= numVol;
+	}
+	
 	Vol(int numVol, String dest, Date depart, int nbRes) {
 		this.numVol = numVol;
 		this.destination = dest;
@@ -53,6 +57,16 @@ public class Vol implements Comparable<Vol> {
 		return this.numVol+";"+this.destination+";"+
 			   this.depart.ecritureFichier()+";"+this.nbRes+"\n";
 	}	
+	
+	@Override
+	public boolean equals(Object obj) {
+		Vol autreVol = (Vol) obj;
+		if (this.numVol == autreVol.getNumVol()) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 	
 	@Override
 	public String toString() {

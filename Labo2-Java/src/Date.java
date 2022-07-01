@@ -2,17 +2,17 @@ import java.time.LocalDate;
 
 public class Date {
 
-	//
+	// attributs de classe
     public static String tabMois[]= 
     	{null, "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
          "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
     
     public static LocalDate dateActuelle= LocalDate.now();
     
-	//
+	// attributs d'instance
     private int jour, mois, an; 
     
-    //
+    // constructeurs 
     public Date() {
         jour=mois= 1;
         an= 2000;
@@ -24,7 +24,7 @@ public class Date {
         this.an= uneAnnee;
     }
 
-    //
+    // accesseurs
     public int getJour() {
         return this.jour;
     }
@@ -37,7 +37,7 @@ public class Date {
         return this.an;
     }
 
-    //
+    // mutateurs
     public void setJour(int jour) {
         int nbJours= determinerNbJoursMois(this.mois, this.an);
         if (jour > nbJours || jour < 1) {
@@ -84,7 +84,6 @@ public class Date {
     }
     
     // autres méthodes 
-    
     // Méthodes pour valider la date avant de l'envoi au constructeur 
     public static String validerDate(int jour, int mois, int an, boolean etat[]) {
         String message= "";
@@ -135,7 +134,7 @@ public class Date {
         return (an % 4 == 0 && an % 100 != 0) || (an % 400 == 0);
     }
     
-    // Méthode de formattage pour l'écriture au fichier
+    // méthode pour écriture formatée dans le fichier
     public String ecritureFichier() {
         String leJour, leMois;
         leJour= Utilitaires.ajouterCaractereGauche('0', 2, this.jour + "");
@@ -150,8 +149,5 @@ public class Date {
         leMois= Utilitaires.ajouterCaractereGauche('0', 2, this.mois + "");
         return leJour+"/"+leMois+"/"+this.an;
     }
-    
-  //public String toString() {
-  //	return this.jour+"/"+this.mois+"/"+this.an;
     
 }

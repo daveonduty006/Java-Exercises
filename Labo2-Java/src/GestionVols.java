@@ -7,6 +7,7 @@ import java.io.*;
 public class GestionVols {
 	
 	static final int MAX_PLACES = 340;
+	static final int MAX_VOLS = 36;
 	static final String COMPAGNIE = "CIE AIR RELAX";
 	static final String FICHIER_VOLS = "src/Donnees/Cie_Air_Relax.txt";
 	static BufferedReader tmpVolsRead;
@@ -24,7 +25,7 @@ public class GestionVols {
 					listeVols();
 					break;
 				case 2:
-					//insererVol();
+					insererVol();
 					break;
 				case 3:
 					//retirerVol();
@@ -42,22 +43,19 @@ public class GestionVols {
 							JOptionPane.PLAIN_MESSAGE);
 					break;
 				default:
-					afficherMessage("Choix invalide. Les options sont [1-6]!");
+					afficherMessage("Choix invalide. Les options sont [1-6]!",
+							        "ATTENTION");
 			}
 		}while (choix != 6);
 		//
 	}
 	
-	private static void afficherMessage(String msg) {
-		JOptionPane.showMessageDialog(null, msg, "MESSAGES", 
+	private static void afficherMessage(String msg, String titre) {
+		JOptionPane.showMessageDialog(null, msg, titre, 
 			                          JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	private static int menu() {
-		/*
-		 * Fix le cas où un caractère non-numérique est entré dans le choix, avec un try-catch NumberFormatException.
-		 * Si le parseInt ne fonctionne pas -1 est retourné.
-		 */
 		int choix;
 		String message= "                       GESTION DES VOLS\n"+
 				        "1. Liste des vols\n"+
@@ -74,6 +72,79 @@ public class GestionVols {
 			return choix;
 		}catch (NumberFormatException e) {
 			return -1;
+		}
+	}
+	
+	private static int rechercherVol(int numVol) {
+		int pos;
+		Vol VolBidon= new Vol(numVol);
+		pos= tabVols.indexOf(VolBidon);
+		return pos;
+	}
+	
+	private static String[] entrerDestinationEtDate() {
+		String autresElemsVol[]= new String[4];
+		JTextField dest= new JTextField();
+		JTextField jour= new JTextField();
+		JTextField mois= new JTextField();
+		JTextField annee= new JTextField();
+		Object[] champs= {
+			"Destination du nouveau vol: ", dest,
+			"Jour du départ: ", jour,
+			"Mois du départ: ", mois,
+			"Année du départ: ", annee};
+		JOptionPane.showConfirmDialog(null, champs, 
+				                      "Détails du nouveau vol",
+				                      JOptionPane.PLAIN_MESSAGE);
+		autresElemsVol[0]= dest.getText();
+		autresElemsVol[1]= jour.getText();
+		autresElemsVol[2]= mois.getText();
+		autresElemsVol[3]= annee.getText();
+		return autresElemsVol;
+	}
+	
+	private static String validerDate(int jour, int mois, int annee) {
+		String msg;
+		boolean etat[]= new boolean[3];
+		msg= Date.validerDate(jour, mois, annee, etat);
+		return msg;
+	}
+		
+	public static void insererVol() {
+		if (tabVols.size() < MAX_VOLS) {
+			try {
+				int pos;
+				int numVol= Integer.parseInt(
+							JOptionPane.showInputDialog(
+					        null, "Entrez le numéro du nouveau vol: ",
+					        COMPAGNIE, JOptionPane.PLAIN_MESSAGE));
+				pos= rechercherVol(numVol);
+				if (pos == -1) {
+					String autresElemsVol[]= new String[4];
+					String msg;
+					autresElemsVol= entrerDestinationEtDate();
+					msg= validerDate(Integer.parseInt(autresElemsVol[1]),
+							         Integer.parseInt(autresElemsVol[2]),
+							         Integer.parseInt(autresElemsVol[3]));
+					if (msg.length() == 0) {
+						Date dateInstance= new Date(
+								           Integer.parseInt(autresElemsVol[1]),
+						           	       Integer.parseInt(autresElemsVol[2]),
+						           		   Integer.parseInt(autresElemsVol[3]));
+						tabVols.add(new Vol(numVol, autresElemsVol[0], 
+								            dateInstance, 0));
+					}else {
+						afficherMessage(msg, "ATTENTION");
+					}
+				}else {
+					afficherMessage("Ce vol existe déjà!", "ATTENTION");		
+				}
+				//
+			}catch (NumberFormatException e) {
+				afficherMessage("Numéro de vol invalide!", "ATTENTION");
+			}			
+		}else {
+			afficherMessage("Nombre maximum de vols atteint!", "ATTENTION");
 		}
 	}
 
