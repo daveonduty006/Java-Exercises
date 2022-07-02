@@ -14,9 +14,9 @@ public class Vol implements Comparable<Vol> {
 	}
 	
 	Vol(int numVol, String dest, Date depart, int nbRes) {
-		this.numVol = numVol;
-		this.destination = dest;
-		this.depart = depart;
+		this.numVol= numVol;
+		setDestination(dest);
+		this.depart= depart;
 		setNbRes(nbRes);
 		nbVols++;
 	}
@@ -39,14 +39,22 @@ public class Vol implements Comparable<Vol> {
 	}
 
 	// mutateurs
+	public void setDestination(String uneDestination) {
+		if (uneDestination.length() > 20) {
+			this.destination= uneDestination.substring(0, 20);
+		}else {
+			this.destination= uneDestination;
+		}
+	}
+	
 	public void setDepart(Date uneDate) {
-		this.depart = uneDate;
+		this.depart= uneDate;
 	}
 	
 	public void setNbRes(int unNbRes) {
 		if (unNbRes >= 0) {
-			this.nbRes = unNbRes;
-		} else {
+			this.nbRes= unNbRes;
+		}else {
 			System.out.println("nombre de réservations invalide");
 		}
 	}
@@ -60,7 +68,7 @@ public class Vol implements Comparable<Vol> {
 	
 	@Override
 	public boolean equals(Object obj) {
-		Vol autreVol = (Vol) obj;
+		Vol autreVol= (Vol) obj;
 		if (this.numVol == autreVol.getNumVol()) {
 			return true;
 		}else {
