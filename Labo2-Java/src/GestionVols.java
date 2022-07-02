@@ -15,6 +15,11 @@ public class GestionVols {
 	static ArrayList<Vol> tabVols;
 
 	public static void main(String[] args) throws Exception {
+		//
+		UIManager.put("OptionPane.cancelButtonText", "Annuler");
+		UIManager.put("OptionPane.noButtonText", "Non");
+		UIManager.put("OptionPane.yesButtonText", "Oui");
+		//
 		int choix;
 		chargerVols();
 		//
@@ -28,7 +33,7 @@ public class GestionVols {
 					insererVol();
 					break;
 				case 3:
-					//retirerVol();
+					retirerVol();
 					break;
 				case 4:
 					//modifierDate();
@@ -94,7 +99,7 @@ public class GestionVols {
 			"Mois du départ: ", mois,
 			"Année du départ: ", annee};
 		JOptionPane.showConfirmDialog(null, champs, 
-				                      "Détails du nouveau vol",
+				                      "AJOUT D'UN VOL",
 				                      JOptionPane.PLAIN_MESSAGE);
 		autresElemsVol[0]= dest.getText();
 		autresElemsVol[1]= jour.getText();
@@ -110,6 +115,45 @@ public class GestionVols {
 		return msg;
 	}
 		
+	private static int confirmerRetrait(int posVol) {
+		int choix;
+		Vol volTrouve= tabVols.get(posVol);
+		JTextArea sortie= new JTextArea();
+		sortie.append(volTrouve.toString()+
+				      "\nDésirez-vous vraiment retirer ce vol ?");
+		
+		choix= JOptionPane.showConfirmDialog(null, sortie, "RETRAIT D'UN VOL",
+				                             JOptionPane.YES_NO_OPTION,
+				                             JOptionPane.PLAIN_MESSAGE);
+		return choix;		
+	}
+	
+	public static void retirerVol() {
+		if (!tabVols.isEmpty()) {
+			try {
+				int pos;
+				int numVol= Integer.parseInt(
+							JOptionPane.showInputDialog(
+					        null, "Entrez le numéro du vol à retirer: ",
+					        "RETRAIT D'UN VOL", JOptionPane.PLAIN_MESSAGE));
+				pos= rechercherVol(numVol);
+				if (pos != -1) {
+					int choix= confirmerRetrait(pos);
+					if (choix == JOptionPane.YES_OPTION) {
+						tabVols.remove(pos);
+						Vol.nbVols--;
+					}
+				}else {
+					afficherMessage("Ce vol n'existe pas!", "ATTENTION");		
+				}				
+			}catch (NumberFormatException e) {
+				afficherMessage("Numéro de vol invalide!", "ATTENTION");
+			}			
+		}else {
+			afficherMessage("Le tableau des vols est vide!", "ATTENTION");
+		}
+	}
+		
 	public static void insererVol() {
 		if (tabVols.size() < MAX_VOLS) {
 			try {
@@ -117,7 +161,7 @@ public class GestionVols {
 				int numVol= Integer.parseInt(
 							JOptionPane.showInputDialog(
 					        null, "Entrez le numéro du nouveau vol: ",
-					        COMPAGNIE, JOptionPane.PLAIN_MESSAGE));
+					        "AJOUT D'UN VOL", JOptionPane.PLAIN_MESSAGE));
 				pos= rechercherVol(numVol);
 				if (pos == -1) {
 					String autresElemsVol[]= new String[4];
@@ -159,6 +203,7 @@ public class GestionVols {
 		for (Vol unVol : tabVols) {
 			sortie.append(unVol.toString());
 		}
+		sortie.append("\nNombre de vols: "+Vol.nbVols);
 		JOptionPane.showMessageDialog(null, sortie, COMPAGNIE,
 				                      JOptionPane.PLAIN_MESSAGE);
 	}
