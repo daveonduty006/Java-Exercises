@@ -57,7 +57,7 @@ public class GestionVols {
 	
 	private static void afficherMessage(String msg, String titre) {
 		JOptionPane.showMessageDialog(null, msg, titre, 
-			                          JOptionPane.PLAIN_MESSAGE);
+			                          JOptionPane.WARNING_MESSAGE);
 	}
 	
 	private static int menu() {
@@ -98,9 +98,14 @@ public class GestionVols {
 			"Jour du départ: ", jour,
 			"Mois du départ: ", mois,
 			"Année du départ: ", annee};
+		do {
 		JOptionPane.showConfirmDialog(null, champs, 
 				                      "AJOUT D'UN VOL",
 				                      JOptionPane.PLAIN_MESSAGE);
+		}while (dest.getText().chars().allMatch(Character::isDigit) ||
+				!jour.getText().chars().allMatch(Character::isDigit) ||
+				!mois.getText().chars().allMatch(Character::isDigit) ||
+				!annee.getText().chars().allMatch(Character::isDigit));
 		autresElemsVol[0]= dest.getText();
 		autresElemsVol[1]= jour.getText();
 		autresElemsVol[2]= mois.getText();
@@ -157,11 +162,13 @@ public class GestionVols {
 	public static void insererVol() {
 		if (tabVols.size() < MAX_VOLS) {
 			try {
-				int pos;
-				int numVol= Integer.parseInt(
-							JOptionPane.showInputDialog(
-					        null, "Entrez le numéro du nouveau vol: ",
-					        "AJOUT D'UN VOL", JOptionPane.PLAIN_MESSAGE));
+				int pos, numVol;
+				do {
+				numVol= Integer.parseInt(
+					    JOptionPane.showInputDialog(
+					    null, "Entrez le numéro du nouveau vol (5 chiffres): ",
+					    "AJOUT D'UN VOL", JOptionPane.QUESTION_MESSAGE));
+				}while (String.valueOf(numVol).length() != 5);
 				pos= rechercherVol(numVol);
 				if (pos == -1) {
 					String autresElemsVol[]= new String[4];
