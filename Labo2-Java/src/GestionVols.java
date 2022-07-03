@@ -39,7 +39,7 @@ public class GestionVols {
 					modifierDate();
 					break;
 				case 5:
-					//reserverVol();
+					reserverVol();
 					break;
 				case 6:
 					//ecrireFichier();
@@ -48,8 +48,7 @@ public class GestionVols {
 							JOptionPane.PLAIN_MESSAGE);
 					break;
 				default:
-					afficherMessage("Choix invalide. Les options sont [1-6]!",
-							        "ATTENTION");
+					afficherMessage("Choix invalide!", "ATTENTION");
 			}
 		}while (choix != 6);
 		//
@@ -57,48 +56,61 @@ public class GestionVols {
 	
 	private static void afficherMessage(String msg, String titre) {
 		JOptionPane.showMessageDialog(null, msg, titre, 
-			                          JOptionPane.WARNING_MESSAGE);
+			JOptionPane.WARNING_MESSAGE);
 	}
 	
 	private static int menu() {
-		int choix;
-		String message= "                       GESTION DES VOLS\n"+
-				        "1. Liste des vols\n"+
-				        "2. Ajout d'un vol\n"+
-				        "3. Retrait d'un vol\n"+
-				        "4. Modification de la date de départ\n"+
-				        "5. Réservation d'un vol\n"+
-				        "6. Terminer\n"+
-				        "                       Faites votre choix: ";
+		String msg= "                       GESTION DES VOLS\n"+
+				    "1. Liste des vols\n"+
+				    "2. Ajout d'un vol\n"+
+			        "3. Retrait d'un vol\n"+
+	                "4. Modification de la date de départ\n"+
+          	        "5. Réservation d'un vol\n"+
+			        "6. Terminer\n"+
+			        "                       Faites votre choix: ";
 		try {
-			choix= Integer.parseInt(
-				   JOptionPane.showInputDialog(
-				   null, message, COMPAGNIE, JOptionPane.PLAIN_MESSAGE));
+			int choix= Integer.parseInt(JOptionPane.showInputDialog(null, msg, 
+				COMPAGNIE, JOptionPane.PLAIN_MESSAGE));
 			return choix;
 		}catch (NumberFormatException e) {
 			return -1;
 		}
 	}
 	
-	private static int rechercherVol(int numVol) {
-		int pos;
+	private static int rechercherVol(String titre, int infoRecherchee) {
+		int numVol;
+		String msg= "";
+		if (infoRecherchee == 1) {
+			msg+= "Entrez le numéro du vol à 5 chiffres: ";
+		}else {
+			msg+= "Pour des fins de sécurité, veuillez "+
+			      "réentrez le numéro du nouveau vol à "+
+		          "5 chiffres: ";
+		}
+		do {
+			numVol= Integer.parseInt(JOptionPane.showInputDialog(null, msg, 
+				titre, JOptionPane.QUESTION_MESSAGE));
+		}while (String.valueOf(numVol).length() != 5);
 		Vol VolBidon= new Vol(numVol);
-		pos= tabVols.indexOf(VolBidon);
-		return pos;
+		int pos= tabVols.indexOf(VolBidon);
+		if (infoRecherchee != 1 && pos != -1) {
+			return 1;
+		}
+		return (infoRecherchee == 1) ? pos : numVol;
 	}
 	
 	private static String entrerDestination(String titre) {
 		String dest;
+		String msg= "Entrez la destination du vol: ";
 		do {
-			dest= JOptionPane.showInputDialog(
-				  null, "Entrez la destination du vol: ",
-				  titre, JOptionPane.QUESTION_MESSAGE);
+			dest= JOptionPane.showInputDialog(null, msg, titre, 
+				JOptionPane.QUESTION_MESSAGE);
 		}while (dest.chars().allMatch(Character::isDigit));
 		return dest;	
 	}
 	
-	private static String[] entrerDate(String infoVol, String titre) {
-		String elemsDate[]= new String[3];
+	private static int[] entrerDate(String infoVol, String titre) {
+		int elemsDate[]= new int[3];
 		JTextField jour= new JTextField();
 		JTextField mois= new JTextField();
 		JTextField annee= new JTextField();
@@ -106,70 +118,66 @@ public class GestionVols {
 			infoVol,
 			"Jour du départ: ", jour,
 			"Mois du départ: ", mois,
-			"Année du départ: ", annee
-			};
+			"Année du départ: ", annee };
 		do {
-			JOptionPane.showConfirmDialog(null, champs, titre,
-				                          JOptionPane.PLAIN_MESSAGE);
-		}while (!jour.getText().chars().allMatch(Character::isDigit) ||
-				!mois.getText().chars().allMatch(Character::isDigit) ||
-				!annee.getText().chars().allMatch(Character::isDigit));
-		elemsDate[0]= jour.getText();
-		elemsDate[1]= mois.getText();
-		elemsDate[2]= annee.getText();
+			JOptionPane.showConfirmDialog(null, champs, titre, 
+				JOptionPane.PLAIN_MESSAGE);
+		}while ( (!jour.getText().chars().allMatch(Character::isDigit)
+				   || jour.getText().isEmpty())                         
+				                                                        ||		                                                       
+				 (!mois.getText().chars().allMatch(Character::isDigit)  
+				   || mois.getText().isEmpty())		                                               
+						                                                ||
+				 (!annee.getText().chars().allMatch(Character::isDigit) 
+			       || annee.getText().isEmpty()) );
+		elemsDate[0]= Integer.parseInt(jour.getText());
+		elemsDate[1]= Integer.parseInt(mois.getText());
+		elemsDate[2]= Integer.parseInt(annee.getText());
 		return elemsDate;
 	}
 	
 	private static String validerDate(int jour, int mois, int annee) {
-		String msg;
 		boolean etat[]= new boolean[3];
-		msg= Date.validerDate(jour, mois, annee, etat);
+		String msg= Date.validerDate(jour, mois, annee, etat);
 		return msg;
 	}
 		
-	private static int confirmerOperation(int posVol, String opMsg, String titre) {
-		int choix;
-		Vol volTrouve= tabVols.get(posVol);
+	private static int confirmerOperation(int pos, String opMsg, String titre) {
+		Vol volTrouve= tabVols.get(pos);
 		JTextArea sortie= new JTextArea();
 		sortie.append(volTrouve.toString()+"\n"+opMsg);	
-		choix= JOptionPane.showConfirmDialog(
-			   null, sortie, titre, JOptionPane.YES_NO_OPTION, 
-			   JOptionPane.PLAIN_MESSAGE);
+		int choix= JOptionPane.showConfirmDialog(null, sortie, titre, 
+			JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
 		return choix;		
+	}
+	
+	public static void reserverVol() {
+		
 	}
 	
 	public static void modifierDate() {
 		if (!tabVols.isEmpty()) {
 			try {
-				int pos;
-				int numVol= Integer.parseInt(
-							JOptionPane.showInputDialog(
-					        null, "Entrez le numéro du vol: ",
-					        "MODIFICATION DE LA DATE DE DÉPART", 
-					        JOptionPane.QUESTION_MESSAGE));
-				pos= rechercherVol(numVol);
+				String titre= "MODIFICATION DE LA DATE DE DÉPART";
+				int pos= rechercherVol(titre, 1);
 				if (pos != -1) {
-					String msg;
-					String elemsDate[]= new String[3];
 					Vol volTrouve= tabVols.get(pos);
-					String infoVol= volTrouve.getDestination()+" "+
+					String infoVol= volTrouve.getDestination()+"   "+
 					                volTrouve.getDepart()+"\n\n";
-					elemsDate= entrerDate(
-							   infoVol, "MODIFICATION DE LA DATE DE DÉPART");
-					msg= validerDate(Integer.parseInt(elemsDate[0]),
-							         Integer.parseInt(elemsDate[1]),
-							         Integer.parseInt(elemsDate[2]));
-					if (msg.length() == 0) {
-						Date dateInstance= new Date(
-								           Integer.parseInt(elemsDate[0]),
-						           	       Integer.parseInt(elemsDate[1]),
-						           		   Integer.parseInt(elemsDate[2]));
+					int elemsDate[]= new int[3];
+					elemsDate= entrerDate(infoVol, titre);
+					String msg= validerDate(elemsDate[0], elemsDate[1], 
+						elemsDate[2]);
+					if (msg.isEmpty()) {
+						Date dateInstance= new Date(elemsDate[0], elemsDate[1], 
+							elemsDate[2]);
 						volTrouve.setDepart(dateInstance);
 					}else {
 						afficherMessage(msg, "ATTENTION");
 					}					
+				}else {
+					afficherMessage("Ce vol n'existe pas!", "ATTENTION");
 				}
-				//
 			}catch (NumberFormatException e) {
 				afficherMessage("Numéro de vol invalide!", "ATTENTION");
 			}			
@@ -181,16 +189,11 @@ public class GestionVols {
 	public static void retirerVol() {
 		if (!tabVols.isEmpty()) {
 			try {
-				int pos;
-				int numVol= Integer.parseInt(
-							JOptionPane.showInputDialog(
-					        null, "Entrez le numéro du vol: ",
-					        "RETRAIT D'UN VOL", JOptionPane.QUESTION_MESSAGE));
-				pos= rechercherVol(numVol);
+				String titre= "RETRAIT D'UN VOL";
+				int pos= rechercherVol(titre, 1);
 				if (pos != -1) {
-					int choix= confirmerOperation(
-							   pos, "Désirez-vous vraiment retirer ce vol ?",
-					           "RETRAIT D'UN VOL");
+					String opMsg= "Désirez-vous vraiment retirer ce vol ?";
+					int choix= confirmerOperation(pos, opMsg, titre);
 					if (choix == JOptionPane.YES_OPTION) {
 						tabVols.remove(pos);
 						Vol.nbVols--;
@@ -198,7 +201,6 @@ public class GestionVols {
 				}else {
 					afficherMessage("Ce vol n'existe pas!", "ATTENTION");		
 				}	
-				//
 			}catch (NumberFormatException e) {
 				afficherMessage("Numéro de vol invalide!", "ATTENTION");
 			}			
@@ -210,35 +212,29 @@ public class GestionVols {
 	public static void insererVol() {
 		if (tabVols.size() < MAX_VOLS) {
 			try {
-				int pos, numVol;
-				do {
-				numVol= Integer.parseInt(
-					    JOptionPane.showInputDialog(
-					    null, "Entrez le numéro du nouveau vol (5 chiffres): ",
-					    "AJOUT D'UN VOL", JOptionPane.QUESTION_MESSAGE));
-				}while (String.valueOf(numVol).length() != 5);
-				pos= rechercherVol(numVol);
+				String titre= "AJOUT D'UN VOL";
+				int pos= rechercherVol(titre, 1);
 				if (pos == -1) {
-					String msg;
-					String elemsDate[]= new String[3];
-					String dest= entrerDestination("AJOUT D'UN VOL");
-					elemsDate= entrerDate("", "AJOUT D'UN VOL");
-					msg= validerDate(Integer.parseInt(elemsDate[0]),
-							         Integer.parseInt(elemsDate[1]),
-							         Integer.parseInt(elemsDate[2]));
-					if (msg.length() == 0) {
-						Date dateInstance= new Date(
-								           Integer.parseInt(elemsDate[0]),
-						           	       Integer.parseInt(elemsDate[1]),
-						           		   Integer.parseInt(elemsDate[2]));
-						tabVols.add(new Vol(numVol, dest, dateInstance, 0));
+					String dest= entrerDestination(titre);
+					int elemsDate[]= new int[3];
+					elemsDate= entrerDate("", titre);
+					String msg= validerDate(elemsDate[0], elemsDate[1], 
+						elemsDate[2]);
+					if (msg.isEmpty()) {
+						Date dateInstance= new Date(elemsDate[0], elemsDate[1], 
+							elemsDate[2]);
+						int numVol= rechercherVol(titre, 0);
+						if (numVol == 1) {
+							afficherMessage("Ce vol existe déjà!", "ATTENTION");
+						}else {
+							tabVols.add(new Vol(numVol, dest, dateInstance, 0));
+						}
 					}else {
 						afficherMessage(msg, "ATTENTION");
 					}
 				}else {
 					afficherMessage("Ce vol existe déjà!", "ATTENTION");		
 				}
-				//
 			}catch (NumberFormatException e) {
 				afficherMessage("Numéro de vol invalide!", "ATTENTION");
 			}			
@@ -253,14 +249,13 @@ public class GestionVols {
 		sortie.setFont(f);
 		sortie.append("\t\t\tLISTE DES VOLS\n\n"+
 				      "Numéro\tDestination\t\tDépart\t\tRéservations\n");
-		//
 		Collections.sort(tabVols);
 		for (Vol unVol : tabVols) {
 			sortie.append(unVol.toString());
 		}
 		sortie.append("\nNombre de vols: "+Vol.nbVols);
-		JOptionPane.showMessageDialog(null, sortie, COMPAGNIE,
-				                      JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(null, sortie, COMPAGNIE, 
+			JOptionPane.PLAIN_MESSAGE);
 	}
 
 	public static void chargerVols() throws Exception {
