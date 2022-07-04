@@ -116,7 +116,7 @@ public class GestionVols {
 		JTextField annee= new JTextField();
 		Object champs[]= {
 			infoVol,
-			"Jour du départ: ", jour,
+			"\nJour du départ: ", jour,
 			"Mois du départ: ", mois,
 			"Année du départ: ", annee };
 		do {
@@ -141,18 +141,51 @@ public class GestionVols {
 		String msg= Date.validerDate(jour, mois, annee, etat);
 		return msg;
 	}
-		
-	private static int confirmerOperation(int pos, String opMsg, String titre) {
-		Vol volTrouve= tabVols.get(pos);
-		JTextArea sortie= new JTextArea();
-		sortie.append(volTrouve.toString()+"\n"+opMsg);	
-		int choix= JOptionPane.showConfirmDialog(null, sortie, titre, 
-			JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
-		return choix;		
-	}
 	
+	private static int entrerReservation(String infoVol, String titre, int p) {
+		infoVol+= "\nIl y a présentement "+p+" siège(s) "+
+				  "disponible(s) pour ce vol.";
+		infoVol+= "\nCombien de sièges voulez-vous réserver? ";
+		String res;
+		do {
+			res= JOptionPane.showInputDialog(null, infoVol, titre, 
+				JOptionPane.QUESTION_MESSAGE);
+		}while (!res.chars().allMatch(Character::isDigit)
+				 || res.isEmpty() );
+		return Integer.parseInt(res);
+	}
+			
 	public static void reserverVol() {
-		
+		if (!tabVols.isEmpty()) {
+			try {
+				String titre= "RÉSERVATION D'UN VOL";
+				int pos= rechercherVol(titre, 1);
+				if (pos != -1) {
+					int places= MAX_PLACES - tabVols.get(pos).getNbRes();
+					if (places == 0) {
+						afficherMessage("Ce vol est complet!", "ATTENTION");
+					}else {
+						String infoVol= tabVols.get(pos).toString()
+								.replace("\t", "  ");
+						int res= entrerReservation(infoVol, titre, places);
+						if (places-res < 0) {
+							afficherMessage(
+								"Nombre de sièges disponibles insuffisant!",
+								"ATTENTION");
+						}else {
+							int nbRes= tabVols.get(pos).getNbRes();
+							tabVols.get(pos).setNbRes(nbRes+res);
+						}
+					}				
+				}else {
+					afficherMessage("Ce vol n'existe pas!", "ATTENTION");
+				}
+			}catch (NumberFormatException e) {
+				afficherMessage("Numéro de vol invalide!", "ATTENTION");
+			}			
+		}else {
+			afficherMessage("Le tableau des vols est vide!", "ATTENTION");
+		}
 	}
 	
 	public static void modifierDate() {
@@ -161,9 +194,8 @@ public class GestionVols {
 				String titre= "MODIFICATION DE LA DATE DE DÉPART";
 				int pos= rechercherVol(titre, 1);
 				if (pos != -1) {
-					Vol volTrouve= tabVols.get(pos);
-					String infoVol= volTrouve.getDestination()+"   "+
-					                volTrouve.getDepart()+"\n\n";
+					String infoVol= tabVols.get(pos).toString()
+						.replace("\t", "  ");
 					int elemsDate[]= new int[3];
 					elemsDate= entrerDate(infoVol, titre);
 					String msg= validerDate(elemsDate[0], elemsDate[1], 
@@ -171,7 +203,7 @@ public class GestionVols {
 					if (msg.isEmpty()) {
 						Date dateInstance= new Date(elemsDate[0], elemsDate[1], 
 							elemsDate[2]);
-						volTrouve.setDepart(dateInstance);
+						tabVols.get(pos).setDepart(dateInstance);
 					}else {
 						afficherMessage(msg, "ATTENTION");
 					}					
@@ -192,8 +224,12 @@ public class GestionVols {
 				String titre= "RETRAIT D'UN VOL";
 				int pos= rechercherVol(titre, 1);
 				if (pos != -1) {
-					String opMsg= "Désirez-vous vraiment retirer ce vol ?";
-					int choix= confirmerOperation(pos, opMsg, titre);
+					String infoVol= tabVols.get(pos).toString()
+						.replace("\t", "  ");
+					infoVol+= "\nDésirez-vous vraiment retirer ce vol ?";					
+					int choix= JOptionPane.showConfirmDialog(null, infoVol, 
+						titre, JOptionPane.YES_NO_OPTION, 
+						JOptionPane.PLAIN_MESSAGE);		
 					if (choix == JOptionPane.YES_OPTION) {
 						tabVols.remove(pos);
 						Vol.nbVols--;
@@ -225,9 +261,9 @@ public class GestionVols {
 							elemsDate[2]);
 						int numVol= rechercherVol(titre, 0);
 						if (numVol == 1) {
-							afficherMessage("Ce vol existe déjà!", "ATTENTION");
+							afficherMessage("Ce vol existe déjà!","ATTENTION");
 						}else {
-							tabVols.add(new Vol(numVol, dest, dateInstance, 0));
+							tabVols.add(new Vol(numVol, dest, dateInstance,0));
 						}
 					}else {
 						afficherMessage(msg, "ATTENTION");
