@@ -9,8 +9,8 @@
  *     reserverVol --> ligne 183
  *     ecrireFichier --> ligne 322
  * Méthodes privées 
- * 	   menu --> ligne
- *     afficherAvert --> ligne 86
+ * 	   menu --> ligne 86
+ *     afficherAvert --> ligne 81
  *     rechercherVol --> ligne 104
  *     entrerDestination --> ligne 126
  *     entrerDate --> ligne 136

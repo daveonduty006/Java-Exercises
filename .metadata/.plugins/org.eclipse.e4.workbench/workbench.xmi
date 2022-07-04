@@ -380,15 +380,17 @@
       <tags>categoryTag:Help</tags>
     </sharedElements>
     <sharedElements xsi:type="advanced:Area" xmi:id="_Hb82mOacEeyMBqavo02OPQ" elementId="org.eclipse.ui.editorss" selectedElement="_Hb82meacEeyMBqavo02OPQ">
-      <children xsi:type="basic:PartStack" xmi:id="_Hb82meacEeyMBqavo02OPQ" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_jxibYPnJEeyVosWiWGPa8w">
+      <children xsi:type="basic:PartStack" xmi:id="_Hb82meacEeyMBqavo02OPQ" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_s1ZiMPnBEeyVosWiWGPa8w">
         <tags>org.eclipse.e4.primaryDataStack</tags>
         <tags>EditorStack</tags>
         <tags>active</tags>
         <children xsi:type="basic:Part" xmi:id="_s1ZiMPnBEeyVosWiWGPa8w" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="GestionVols.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;GestionVols.java&quot; partName=&quot;GestionVols.java&quot; title=&quot;GestionVols.java&quot; tooltip=&quot;Labo2-Java/src/GestionVols.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/Labo2-Java/src/GestionVols.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;117&quot; selectionTopPixel=&quot;22&quot;/>&#xD;&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;GestionVols.java&quot; partName=&quot;GestionVols.java&quot; title=&quot;GestionVols.java&quot; tooltip=&quot;Labo2-Java/src/GestionVols.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/Labo2-Java/src/GestionVols.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;351&quot; selectionTopPixel=&quot;0&quot;/>&#xD;&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
+          <tags>active</tags>
+          <tags>activeOnClose</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_tCqiIPnBEeyVosWiWGPa8w" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Vol.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
           <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xD;&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;Vol.java&quot; partName=&quot;Vol.java&quot; title=&quot;Vol.java&quot; tooltip=&quot;Labo2-Java/src/Vol.java&quot;>&#xD;&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/Labo2-Java/src/Vol.java&quot;/>&#xD;&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;1167&quot; selectionTopPixel=&quot;876&quot;/>&#xD;&#xA;&lt;/editor>"/>
@@ -407,8 +409,6 @@
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
           <tags>org.eclipse.ui.DefaultTextEditor</tags>
-          <tags>active</tags>
-          <tags>activeOnClose</tags>
         </children>
       </children>
     </sharedElements>
@@ -693,7 +693,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_Hb83K-acEeyMBqavo02OPQ" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_WoJ3sPrkEeymSJISFfnTtw" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_HcBxVuacEeyMBqavo02OPQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_efWMQPt6EeysM4ChIyXHcg" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_HcBxVuacEeyMBqavo02OPQ"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_Hb83OOacEeyMBqavo02OPQ" elementId="group.edit" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -724,7 +724,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_Hb83c-acEeyMBqavo02OPQ" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_WoLF0frkEeymSJISFfnTtw" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_HcBw2eacEeyMBqavo02OPQ"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_efXaYPt6EeysM4ChIyXHcg" elementId="org.eclipse.ui.window.pinEditor" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_HcBw2eacEeyMBqavo02OPQ"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_Hb83f-acEeyMBqavo02OPQ" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
