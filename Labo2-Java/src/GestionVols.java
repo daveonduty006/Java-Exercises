@@ -1,3 +1,23 @@
+/* TABLE DE REPÉRAGE DES MÉTHODES
+ * Méthodes publiques 
+ *     main --> ligne 38
+ *     chargerVols --> ligne 339
+ *     listeVols --> ligne 307
+ *     insererVol --> ligne 273
+ *     retirerVol --> ligne 246
+ *     modifierDate --> ligne 216
+ *     reserverVol --> ligne 183
+ *     ecrireFichier --> ligne 322
+ * Méthodes privées 
+ * 	   menu --> ligne
+ *     afficherAvert --> ligne 86
+ *     rechercherVol --> ligne 104
+ *     entrerDestination --> ligne 126
+ *     entrerDate --> ligne 136
+ *     validerDate --> ligne 163
+ *     entrerReservation --> 169 	
+ */
+
 import java.util.Collections;
 import java.util.ArrayList;
 import java.awt.Font;
@@ -11,6 +31,7 @@ public class GestionVols {
 	static final String COMPAGNIE = "CIE AIR RELAX";
 	static final String FICHIER_VOLS = "src/Donnees/Cie_Air_Relax.txt";
 	static BufferedReader tmpVolsRead;
+	static BufferedWriter tmpVolsWrite;
 	static JTextArea sortie;
 	static ArrayList<Vol> tabVols;
 
@@ -42,19 +63,22 @@ public class GestionVols {
 					reserverVol();
 					break;
 				case 6:
-					//ecrireFichier();
+					ecrireFichier();
 					JOptionPane.showMessageDialog(null,
-							"Merci d'avoir utilisé le sytème de réservation de " + COMPAGNIE, "Au revoir",
-							JOptionPane.PLAIN_MESSAGE);
+						"Merci d'avoir utilisé le sytème de gestion de vols "+ 
+					    "de "+COMPAGNIE+"!", "Au Revoir",
+					    JOptionPane.INFORMATION_MESSAGE);
 					break;
 				default:
-					afficherMessage("Choix invalide!", "ATTENTION");
+					afficherAvert("Choix invalide!", "ATTENTION");
 			}
 		}while (choix != 6);
 		//
+		System.exit(0);
 	}
 	
-	private static void afficherMessage(String msg, String titre) {
+	// méthodes privées
+	private static void afficherAvert(String msg, String titre) {
 		JOptionPane.showMessageDialog(null, msg, titre, 
 			JOptionPane.WARNING_MESSAGE);
 	}
@@ -154,7 +178,8 @@ public class GestionVols {
 				 || res.isEmpty() );
 		return Integer.parseInt(res);
 	}
-			
+	
+	// méthodes publiques
 	public static void reserverVol() {
 		if (!tabVols.isEmpty()) {
 			try {
@@ -163,13 +188,13 @@ public class GestionVols {
 				if (pos != -1) {
 					int places= MAX_PLACES - tabVols.get(pos).getNbRes();
 					if (places == 0) {
-						afficherMessage("Ce vol est complet!", "ATTENTION");
+						afficherAvert("Ce vol est complet!", "ATTENTION");
 					}else {
 						String infoVol= tabVols.get(pos).toString()
 								.replace("\t", "  ");
 						int res= entrerReservation(infoVol, titre, places);
 						if (places-res < 0) {
-							afficherMessage(
+							afficherAvert(
 								"Nombre de sièges disponibles insuffisant!",
 								"ATTENTION");
 						}else {
@@ -178,13 +203,13 @@ public class GestionVols {
 						}
 					}				
 				}else {
-					afficherMessage("Ce vol n'existe pas!", "ATTENTION");
+					afficherAvert("Ce vol n'existe pas!", "ATTENTION");
 				}
 			}catch (NumberFormatException e) {
-				afficherMessage("Numéro de vol invalide!", "ATTENTION");
+				afficherAvert("Numéro de vol invalide!", "ATTENTION");
 			}			
 		}else {
-			afficherMessage("Le tableau des vols est vide!", "ATTENTION");
+			afficherAvert("Le tableau des vols est vide!", "ATTENTION");
 		}
 	}
 	
@@ -205,16 +230,16 @@ public class GestionVols {
 							elemsDate[2]);
 						tabVols.get(pos).setDepart(dateInstance);
 					}else {
-						afficherMessage(msg, "ATTENTION");
+						afficherAvert(msg, "ATTENTION");
 					}					
 				}else {
-					afficherMessage("Ce vol n'existe pas!", "ATTENTION");
+					afficherAvert("Ce vol n'existe pas!", "ATTENTION");
 				}
 			}catch (NumberFormatException e) {
-				afficherMessage("Numéro de vol invalide!", "ATTENTION");
+				afficherAvert("Numéro de vol invalide!", "ATTENTION");
 			}			
 		}else {
-			afficherMessage("Le tableau des vols est vide!", "ATTENTION");
+			afficherAvert("Le tableau des vols est vide!", "ATTENTION");
 		}
 	}		
 	
@@ -235,13 +260,13 @@ public class GestionVols {
 						Vol.nbVols--;
 					}
 				}else {
-					afficherMessage("Ce vol n'existe pas!", "ATTENTION");		
+					afficherAvert("Ce vol n'existe pas!", "ATTENTION");		
 				}	
 			}catch (NumberFormatException e) {
-				afficherMessage("Numéro de vol invalide!", "ATTENTION");
+				afficherAvert("Numéro de vol invalide!", "ATTENTION");
 			}			
 		}else {
-			afficherMessage("Le tableau des vols est vide!", "ATTENTION");
+			afficherAvert("Le tableau des vols est vide!", "ATTENTION");
 		}
 	}
 		
@@ -261,21 +286,21 @@ public class GestionVols {
 							elemsDate[2]);
 						int numVol= rechercherVol(titre, 0);
 						if (numVol == 1) {
-							afficherMessage("Ce vol existe déjà!","ATTENTION");
+							afficherAvert("Ce vol existe déjà!","ATTENTION");
 						}else {
 							tabVols.add(new Vol(numVol, dest, dateInstance,0));
 						}
 					}else {
-						afficherMessage(msg, "ATTENTION");
+						afficherAvert(msg, "ATTENTION");
 					}
 				}else {
-					afficherMessage("Ce vol existe déjà!", "ATTENTION");		
+					afficherAvert("Ce vol existe déjà!", "ATTENTION");		
 				}
 			}catch (NumberFormatException e) {
-				afficherMessage("Numéro de vol invalide!", "ATTENTION");
+				afficherAvert("Numéro de vol invalide!", "ATTENTION");
 			}			
 		}else {
-			afficherMessage("Nombre maximum de vols atteint!", "ATTENTION");
+			afficherAvert("Nombre maximum de vols atteint!", "ATTENTION");
 		}
 	}
 
@@ -293,6 +318,23 @@ public class GestionVols {
 		JOptionPane.showMessageDialog(null, sortie, COMPAGNIE, 
 			JOptionPane.PLAIN_MESSAGE);
 	}
+	
+	public static void ecrireFichier() throws Exception {
+		try {
+			tmpVolsWrite= new BufferedWriter(new FileWriter(FICHIER_VOLS));
+			String ligne;
+			for (Vol unVol : tabVols) {
+				ligne= unVol.ecritureFichier();
+				tmpVolsWrite.write(ligne);
+			}
+		}catch (Exception e) {
+			System.out.println("Un problème est subvenu lors de l'écriture "+
+		                       "du fichier. Contactez l'administrateur.");
+			e.printStackTrace();
+		}finally {
+			tmpVolsWrite.close();
+		}
+	}
 
 	public static void chargerVols() throws Exception {
 		try {
@@ -300,9 +342,7 @@ public class GestionVols {
 			tmpVolsRead= new BufferedReader(new FileReader(FICHIER_VOLS));
 			String elemsVol[]= new String[4];
 			String elemsDate[]= new String[3];
-			String ligne;
-			//
-			ligne= tmpVolsRead.readLine();
+			String ligne= tmpVolsRead.readLine();
 			while (ligne != null) {
 				elemsVol= ligne.split(";");
 				elemsDate= elemsVol[2].split(" ");
@@ -314,13 +354,16 @@ public class GestionVols {
 						            Integer.parseInt(elemsVol[3])));
 				ligne= tmpVolsRead.readLine();
 			}
-			//
 		}catch (FileNotFoundException e) {
-			System.out.println("Fichier introuvable. Vérifiez le chemin et nom du fichier.");
+			System.out.println("Fichier introuvable. Vérifiez le chemin et "+
+		                       "nom du fichier.");
 		}catch (IOException e) {
-			System.out.println("Un problème est subvenu lors de la manipulation du fichier. Vérifiez vos données.");
+			System.out.println("Un problème est subvenu lors de la "+
+		                       "manipulation du fichier. Vérifiez vos "+
+					           "données.");
 		}catch (Exception e) {
-			System.out.println("Un problème est subvenu lors du chargement du fichier. Contactez l'administrateur.");
+			System.out.println("Un problème est subvenu lors du chargement "+
+		                       "du fichier. Contactez l'administrateur.");
 		}finally {
 			tmpVolsRead.close();
 		}
