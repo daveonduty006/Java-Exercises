@@ -1,8 +1,8 @@
 @SuppressWarnings("serial")
-public class VolRegulier extends Vol {
+public class VolPrive extends Vol {
 
 	// attributs de classe
-	public static int nbVolsReg= 0;
+	public static int nbVolsPR= 0;
 
 	// attributs d'instance
 	private Avion numAvion;
@@ -10,10 +10,10 @@ public class VolRegulier extends Vol {
 	                alimentation;
 	
 	// constructeur
-	VolRegulier(char type, int num, String dest, Date depart, int res,
-			    Avion numAvion, boolean reservable, boolean repas, 
-			    boolean bar, boolean servicesPay, boolean console, 
-			    boolean wifi, boolean alimentation) {
+	VolPrive(char type, int num, String dest, Date depart, int res,
+			 Avion numAvion, boolean reservable, boolean repas, 
+			 boolean bar, boolean servicesPay, boolean console, 
+			 boolean wifi, boolean alimentation) {
 		super(type, num, dest, depart, res);
 		this.numAvion= numAvion;
 		this.reservable= reservable;
@@ -23,7 +23,7 @@ public class VolRegulier extends Vol {
 		this.console= console;
 		this.wifi= wifi;
 		this.alimentation= alimentation;
-		nbVolsReg++;
+		nbVolsPR++;
 	}
 	
 	// accesseurs

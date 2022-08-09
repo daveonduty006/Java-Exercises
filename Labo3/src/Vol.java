@@ -7,10 +7,10 @@ public class Vol implements Serializable, Comparable<Vol> {
 	public static int nbVols= 0;
 
 	// attributs d'instance
-	private int num, res;
-	private char type;
-	private String destination;
-	private Date depart;
+	protected int num, res;
+	protected char type;
+	protected String destination;
+	protected Date depart;
 
 	// constructeurs
 	Vol(int num) {
@@ -86,22 +86,22 @@ public class Vol implements Serializable, Comparable<Vol> {
 	}
 	
 	@Override
+	public int compareTo(Vol unVol) {
+		return this.num - unVol.getNum();
+	}
+	
+	@Override
 	public String toString() {
 		if (this.destination.length() < 8) {
 			return this.type+"\t"+this.num+"\t"+this.destination+"\t\t\t"+ 
-				   this.depart.toString()+"\t"+ this.res+"\n";
+				   this.depart.toString()+"\t"+ this.res+"\t";
 		}else if (this.destination.length() < 15) {
 			return this.type+"\t"+this.num+"\t"+this.destination+"\t\t"+ 
-				   this.depart.toString()+"\t"+ this.res+"\n";
+				   this.depart.toString()+"\t"+ this.res+"\t";
 		}else {
 			return this.type+"\t"+this.num+"\t"+this.destination+"\t"+ 
-				   this.depart.toString()+"\t"+ this.res+"\n";
+				   this.depart.toString()+"\t"+ this.res+"\t";
 		}
-	}
-
-	@Override
-	public int compareTo(Vol unVol) {
-		return this.num - unVol.getNum();
 	}
 
 }
