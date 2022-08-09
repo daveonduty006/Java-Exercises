@@ -3,15 +3,15 @@ public class Avion implements Serializable {
 
 	private static final long serialVersionUID = -8808570102272639678L;
 
-	//Attributs de classe
+	// attributs de classe
 	public static int nbAvions= 0;
 	
-	//Attributs d'instance
+	// attributs d'instance
 	private int num, places;
 	private String type, rayon;
 	private boolean[] classes= new boolean[3];
 	
-	//Constructeur
+	// constructeur
 	Avion(int num, String type, int places, String rayon, boolean[] classes) {
 		this.num= num;
 		this.type= type;
@@ -21,7 +21,7 @@ public class Avion implements Serializable {
 		nbAvions++;
 	}
 	
-	//Accesseurs
+	// accesseurs
 	public int getNum() {
 		return this.num;
 	}
@@ -42,7 +42,7 @@ public class Avion implements Serializable {
 		return classes;
 	}
 	
-	//Mutateurs
+	// mutateurs
 	public void setPlaces(int places) {
 		if (places > 0) {
 			this.places= places;
@@ -61,7 +61,7 @@ public class Avion implements Serializable {
 		}
 	}
 	
-	//Autres méthodes
+	// autres méthodes
 	@Override
 	public String toString() {
 		return String.valueOf(this.num);
