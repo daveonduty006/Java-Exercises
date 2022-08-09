@@ -1,4 +1,5 @@
 import java.io.*;
+
 public class Avion implements Serializable {
 
 	private static final long serialVersionUID = -8808570102272639678L;
@@ -9,15 +10,19 @@ public class Avion implements Serializable {
 	// attributs d'instance
 	private int num, places;
 	private String type, rayon;
-	private boolean[] classes= new boolean[3];
+	private boolean classePremiere, classeAffaires, classeEconomique;
 	
 	// constructeur
-	Avion(int num, String type, int places, String rayon, boolean[] classes) {
+	Avion(int num, String type, int places, String rayon, 
+		  boolean classePremiere, boolean classeAffaires, 
+		  boolean classeEconomique) {
 		this.num= num;
 		this.type= type;
 		setPlaces(places);
 		setRayon(rayon);
-		this.classes= classes;
+		this.classePremiere= classePremiere;
+		this.classeAffaires= classeAffaires;
+		this.classeEconomique= classeEconomique;
 		nbAvions++;
 	}
 	
@@ -38,8 +43,16 @@ public class Avion implements Serializable {
 		return this.rayon;
 	}
 	
-	public boolean[] getClasses() {
-		return classes;
+	public boolean getClassePremiere() {
+		return this.classePremiere;
+	}
+	
+	public boolean getClasseAffaires() {
+		return this.classeAffaires;
+	}
+	
+	public boolean getClasseEconomique() {
+		return this.classeEconomique;
 	}
 	
 	// mutateurs
@@ -61,7 +74,7 @@ public class Avion implements Serializable {
 		}
 	}
 	
-	// autres mÃ©thodes
+	// autres méthodes
 	@Override
 	public String toString() {
 		return String.valueOf(this.num);

@@ -64,12 +64,12 @@ public class Vol implements Serializable, Comparable<Vol> {
 		if (uneRes >= 0) {
 			this.res= uneRes;
 		}else {
-			System.out.println("nombre de rÃ©servations invalide");
+			System.out.println("nombre de réservations invalide");
 		}
 	}
 
-	// autres mÃ©thodes	
-	// mÃ©thode pour Ã©criture formatÃ©e dans le fichier
+	// autres méthodes	
+	// méthode pour écriture formatée dans le fichier
 	public String ecritureFichier() {
 		return this.type+";"+this.num+";"+this.destination+";"+
 			   this.depart.ecritureFichier()+";"+this.res+"\n";

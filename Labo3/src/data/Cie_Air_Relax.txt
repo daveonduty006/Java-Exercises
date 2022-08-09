@@ -1,4 +1,4 @@
 R;14567;Toronto;12 04 2002;167
 B;17890;Guadeloupe;01 05 2002;340
-C;19012;Nouvelle-OrlÃ©ans;03 05 2002;150
+C;19012;Nouvelle-Orléans;03 05 2002;150
 P;22345;Martinique;25 04 2002;17
