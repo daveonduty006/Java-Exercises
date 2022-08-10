@@ -11,18 +11,20 @@ public class Vol implements Serializable, Comparable<Vol> {
 	protected char type;
 	protected String destination;
 	protected Date depart;
+	protected Avion avion;
 
 	// constructeurs
 	Vol(int num) {
 		this.num= num;
 	}
 	
-	Vol(char type, int num, String dest, Date depart, int res) {
+	Vol(char type, int num, String dest, Date depart, int res, Avion avion) {
 		this.type= type;
 		this.num= num;
 		setDestination(dest);
 		this.depart= depart;
 		setRes(res);
+		this.avion= avion;
 		nbVols++;
 	}
 
@@ -46,12 +48,21 @@ public class Vol implements Serializable, Comparable<Vol> {
 	public int getRes() {
 		return this.res;
 	}
+	
+	public Avion getAvion() {
+		return this.avion;
+	}
 
 	// mutateurs
 	public void setDestination(String uneDestination) {
-		if (uneDestination.length() > 20) {
-			this.destination= uneDestination.substring(0, 20);
-		}else {
+		if (uneDestination.length() == 16) {
+			this.destination= uneDestination;
+		}else if (uneDestination.length() > 16) {
+			this.destination= uneDestination.substring(0, 16);
+		}else if (uneDestination.length() < 16){
+			while (uneDestination.length() != 16) {
+				uneDestination += " ";
+			}
 			this.destination= uneDestination;
 		}
 	}
@@ -72,7 +83,8 @@ public class Vol implements Serializable, Comparable<Vol> {
 	// méthode pour écriture formatée dans le fichier
 	public String ecritureFichier() {
 		return this.type+";"+this.num+";"+this.destination+";"+
-			   this.depart.ecritureFichier()+";"+this.res+"\n";
+			   this.depart.ecritureFichier()+";"+this.res+";"+
+			   this.avion.toString()+";";
 	}	
 	
 	@Override
@@ -92,16 +104,9 @@ public class Vol implements Serializable, Comparable<Vol> {
 	
 	@Override
 	public String toString() {
-		if (this.destination.length() < 8) {
-			return this.type+"\t"+this.num+"\t"+this.destination+"\t\t\t"+ 
-				   this.depart.toString()+"\t"+ this.res+"\t";
-		}else if (this.destination.length() < 15) {
-			return this.type+"\t"+this.num+"\t"+this.destination+"\t\t"+ 
-				   this.depart.toString()+"\t"+ this.res+"\t";
-		}else {
-			return this.type+"\t"+this.num+"\t"+this.destination+"\t"+ 
-				   this.depart.toString()+"\t"+ this.res+"\t";
-		}
+		return this.type+"\t\t"+this.num+"\t\t"+this.destination+"\t"+ 
+				   this.depart.toString()+"\t"+ this.res+"\t\t"+
+				   this.avion.toString()+"\t\t";
 	}
 
 }

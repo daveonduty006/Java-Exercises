@@ -5,17 +5,15 @@ public class VolCharter extends Vol {
 	public static int nbVolsCH= 0;
 
 	// attributs d'instance
-	private Avion numAvion;
 	private boolean reservable, repas, bar, servicesPay, console, wifi, 
 	                alimentation;
 	
 	// constructeur
 	VolCharter(char type, int num, String dest, Date depart, int res,
-			   Avion numAvion, boolean reservable, boolean repas, 
+			   Avion avion, boolean reservable, boolean repas, 
 			   boolean bar, boolean servicesPay, boolean console, 
 			   boolean wifi, boolean alimentation) {
-		super(type, num, dest, depart, res);
-		this.numAvion= numAvion;
+		super(type, num, dest, depart, res, avion);
 		this.reservable= reservable;
 		this.repas= repas;
 		this.bar= bar;
@@ -26,40 +24,36 @@ public class VolCharter extends Vol {
 		nbVolsCH++;
 	}
 	
-	// accesseurs
-	public Avion getNumAvion() {
-		return this.numAvion;
-	}
-	
-	public boolean reservable() {
+	// accesseurs	
+	public boolean getReservable() {
 		return this.reservable;
 	}
 	
-	public boolean repas() {
+	public boolean getRepas() {
 		return this.repas;
 	}
 	
-	public boolean bar() {
+	public boolean getBar() {
 		return this.bar;
 	}
 	
-	public boolean servicesPay() {
+	public boolean getServicesPay() {
 		return this.servicesPay;
 	}
 	
-	public boolean console() {
+	public boolean getConsole() {
 		return this.console;
 	}
 	
-	public boolean wifi() {
+	public boolean getWifi() {
 		return this.wifi;
 	}
 	
-	public boolean alimentation() {
+	public boolean getAlimentation() {
 		return this.alimentation;
 	}
 	
-	// mutateurs
+	// mutateurs	
 	public void setReservable(boolean valeur) {
 		this.reservable= valeur;
 	}
@@ -91,10 +85,9 @@ public class VolCharter extends Vol {
 	// autres méthodes
 	@Override
 	public String toString() {
-		return super.toString()+this.numAvion.toString()+"\t"+
-	           this.reservable+"\t"+this.repas+"\t"+this.bar+"\t"+
-	           this.servicesPay+"\t"+this.console+"\t"+this.wifi+"\t"+
-	           this.alimentation+"\n";
+		return super.toString()+this.reservable+"\t"+this.repas+"\t"+
+	           this.bar+"\t"+this.servicesPay+"\t"+this.console+"\t"+
+			   this.wifi+"\t"+this.alimentation+"\n";
 	}
 	
 }
