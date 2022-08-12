@@ -7,8 +7,8 @@ public class Date implements Serializable {
 
 	// attributs de classe
     public static String tabMois[]= 
-    	{null, "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", 
-         "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"};
+    	{null, "Janvier", "Fï¿½vrier", "Mars", "Avril", "Mai", "Juin", 
+         "Juillet", "Aoï¿½t", "Septembre", "Octobre", "Novembre", "Dï¿½cembre"};
     
     public static LocalDate dateActuelle= LocalDate.now();
     
@@ -69,25 +69,25 @@ public class Date implements Serializable {
 
     public void setAn(int an) {
         if (an < 0) {
-            System.out.println("Année "+an+" ne peut pas être une année négative");
+            System.out.println("Annï¿½e "+an+" ne peut pas ï¿½tre une annï¿½e nï¿½gative");
         } else {
             this.an= an;
         }
-        // !!! Ce code est bon pour le labo sur les Vols mais pas bon en général !!!
+        // !!! Ce code est bon pour le labo sur les Vols mais pas bon en gï¿½nï¿½ral !!!
         
-        /* BON CODE EN GÉNÉRAL
+        /* BON CODE EN Gï¿½Nï¿½RAL
          * int anneeActuelle= dateActuelle.getYear();
          * if (an < anneeActuelle) {
-         *     System.out.println("Année "+an+
-         *                        " ne peut pas être inférieure à l'année actuelle, soit "+
+         *     System.out.println("Annï¿½e "+an+
+         *                        " ne peut pas ï¿½tre infï¿½rieure ï¿½l'annï¿½e actuelle, soit "+
          *                        anneActuelle);
          * } else {
          *     this.an= an;}
          */
     }
     
-    // autres méthodes 
-    // Méthodes pour valider la date avant de l'envoi au constructeur 
+    // autres mï¿½thodes 
+    // Mï¿½thodes pour valider la date avant de l'envoi au constructeur 
     public static String validerDate(int jour, int mois, int an, boolean etat[]) {
         String message= "";
         int nbJours= 0;
@@ -110,11 +110,11 @@ public class Date implements Serializable {
         } else {
             message+= "Impossible de valider le jour puisque votre mois est invalide";
         }
-        // Valide l'année
+        // Valide l'annï¿½e
         int anneeActuelle= dateActuelle.getYear();
         if (an < anneeActuelle) {
             etat[2]= false;
-            message+= "Année "+an+" ne peut pas être inférieure à l'année actuelle, soit "+
+            message+= "Annï¿½e "+an+" ne peut pas ï¿½tre infï¿½rieure ï¿½l'annï¿½e actuelle, soit "+
                       anneeActuelle+"\n";
         } else {
             etat[2]= true;
@@ -137,7 +137,7 @@ public class Date implements Serializable {
         return (an % 4 == 0 && an % 100 != 0) || (an % 400 == 0);
     }
     
-    // méthode pour écriture formatée dans le fichier
+    // mï¿½thode pour ï¿½criture formatï¿½e dans le fichier
     public String ecritureFichier() {
         String leJour, leMois;
         leJour= Utilitaires.ajouterCaractereGauche('0', 2, this.jour + "");

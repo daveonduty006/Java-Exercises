@@ -16,7 +16,7 @@ public class GestionVols {
 	public static void main(String[] args) throws Exception {
 		chargerFlotte();
 		chargerVols();
-		int choix, choixListe;
+		int choix, choixListe, choixType;
 		do {
 			choix= menuGeneral();
 			switch (choix) {
@@ -51,6 +51,21 @@ public class GestionVols {
 						}
 					} while (choixListe != 0);
 					break;
+				case 2:
+					do {
+						choixType= menuChoixType();
+						switch (choixType) {
+							case 1:
+							case 2:
+							case 3:
+							case 4:
+								ajouterVol(choixType);
+								break;
+							default:
+								afficherMessage("Choix invalide !");
+						}
+					} while (choixType != 0);
+					break;
 				default:
 					afficherMessage("Choix invalide !");
 			}
@@ -61,16 +76,25 @@ public class GestionVols {
 		JOptionPane.showMessageDialog(null, msg, "MESSAGES", JOptionPane.PLAIN_MESSAGE);
 	}
 	
+	private static int menuChoixType() {
+		String contenu = "1. Ajout d'un vol régulier\n2. Ajout d'un vol bas-prix\n3. Ajout d'un vol charter\n"+
+                         "4. Ajout d'un vol privé\n0. Terminer\n\n";
+		contenu += "Entrez votre choix: ";
+		return Integer.parseInt(
+	           JOptionPane.showInputDialog(
+               null, contenu, "AJOUT D'UN VOL", JOptionPane.PLAIN_MESSAGE));
+		}
+	
 	private static int menuChoixListe() {
 		sortie= new JTextArea(20,100);
 		sortie.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		sp= new JScrollPane(sortie);
-		String contenu = "1. Tous\n2. Vols Réguliers\n3. Vols Bas-Prix\n"+
-	                     "4. Vols Charter\n5. Vols Privés\n0. Terminer\n\n";
+		String contenu = "1. Lister tous les vols\n2. Lister les vols réguliers\n3. Lister les vols bas-prix\n"+
+	                     "4. Lister les vols charter\n5. Lister les vols privés\n0. Terminer\n\n";
 		contenu += "Entrez votre choix: ";
 		return Integer.parseInt(
 			   JOptionPane.showInputDialog(
-		       null, contenu, COMPAGNIE, JOptionPane.PLAIN_MESSAGE));
+		       null, contenu, "LISTES DES VOLS", JOptionPane.PLAIN_MESSAGE));
 	}
 	
 	private static int menuGeneral() {
@@ -133,6 +157,115 @@ public class GestionVols {
 													  Boolean.parseBoolean(donneesVol.get(12))));
 			}
 		});
+	}
+	
+	private static int obtenirNumVolValide() {
+		boolean numVolExiste;
+		int numVol;
+		do {
+			numVol= Integer.parseInt(
+					JOptionPane.showInputDialog(
+					null, "Entrez le numéro du vol: ", "AJOUT D'UN VOL", JOptionPane.PLAIN_MESSAGE));
+			numVolExiste = listeMapVols.containsKey(numVol);
+			if (numVolExiste) {
+				afficherMessage("Le vol numéro "+numVol+" existe déjà !");
+			}
+		} while (numVolExiste);
+		return numVol;
+	}
+	
+	private static Date obtenirDateValide() {
+		String msg;
+		JTextField jour= new JTextField();
+		JTextField mois= new JTextField();
+		JTextField annee= new JTextField();
+		Object champs[]= {
+			"Jour du départ: ", jour,
+			"Mois du départ: ", mois,
+			"Année du départ: ", annee };
+		do {
+			do {
+				JOptionPane.showConfirmDialog(
+			    null, champs, "DATE DE DÉPART DU VOL", JOptionPane.PLAIN_MESSAGE);
+			}while ( (!jour.getText().chars().allMatch(Character::isDigit)
+				      || jour.getText().isEmpty())                         
+				    ||		                                                       
+                     (!mois.getText().chars().allMatch(Character::isDigit)  
+				      || mois.getText().isEmpty())		                                               
+				    ||
+				     (!annee.getText().chars().allMatch(Character::isDigit) 
+			          || annee.getText().isEmpty()) );
+			boolean etat[]= new boolean[3];
+		    msg= Date.validerDate(Integer.parseInt(jour.getText()), 
+		    		              Integer.parseInt(mois.getText()), 
+		    		              Integer.parseInt(annee.getText()), etat);
+		    if (!msg.isEmpty()) {
+		    	afficherMessage(msg);
+		    }
+		} while (!msg.isEmpty());
+		Date depart= new Date(Integer.parseInt(jour.getText()),
+				              Integer.parseInt(mois.getText()),
+				              Integer.parseInt(annee.getText()));
+		return depart;
+	}
+	
+	public static Avion obtenirAvionValide(Date depart) {
+		int choixAvion;
+		boolean avionDisponible;
+		Avion avionChoisi;
+		sortie= new JTextArea(20, 80);
+		sortie.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+		sortie.append("NUMÉRO AVION\tTYPE AVION\t\t\tSIÈGES\t\tRAYON D'ACTION\t\t"+
+		              "CLASSE PREMIÈRE\t\tCLASSE AFFAIRE\t\tCLASSE ÉCONOMIQUE\n");
+		sp= new JScrollPane(sortie);
+		listeFlotte.forEach((avion) -> {
+			sortie.append(avion.affichageJTA());
+		});
+		sortie.append("\nNombre d'avions: "+Avion.nbAvions);
+		do {
+			avionDisponible= true;
+			do {
+				choixAvion= Integer.parseInt(
+					    	JOptionPane.showInputDialog(
+					        null, sp, "SÉLECTION DE L'AVION", JOptionPane.PLAIN_MESSAGE))-1;
+			} while (choixAvion >= listeFlotte.size());
+			avionChoisi= listeFlotte.get(choixAvion);
+			for (Integer numVol : listeMapVols.keySet()) {
+				Vol unVol= listeMapVols.get(numVol);
+				if ( unVol.getAvion() == avionChoisi 
+					 && unVol.depart.getJour() == depart.getJour()
+					 && unVol.depart.getMois() == depart.getMois() 
+					 && unVol.depart.getAnnee() == depart.getAnnee() ) {
+					afficherMessage("Cet avion a déjà un vol de prévu pour cette date! ");
+					avionDisponible= false;
+					break;
+				}
+			}
+		} while (!avionDisponible);
+		return avionChoisi;
+	}
+	
+	public static void ajouterVol(int choixType) {
+		int numVol= obtenirNumVolValide();
+		char typeVol;
+		switch (choixType) {
+			case 1: 
+				typeVol= 'R';
+				break;
+			case 2:
+				typeVol= 'B';
+				break;
+			case 3:
+				typeVol= 'C';
+				break;
+			case 4:
+				typeVol= 'P';
+				break;
+		}
+		String dest= JOptionPane.showInputDialog(
+				     null, "Entrez la destination", "AJOUT D'UN VOL", JOptionPane.PLAIN_MESSAGE);
+		Date depart= obtenirDateValide();
+		Avion avion= obtenirAvionValide(depart);
 	}
 	
 	public static void listerVolsPrives() {

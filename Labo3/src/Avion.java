@@ -17,7 +17,7 @@ public class Avion implements Serializable {
 		  boolean classePremiere, boolean classeAffaires, 
 		  boolean classeEconomique) {
 		this.num= num;
-		this.type= type;
+		setType(type);
 		setPlaces(places);
 		setRayon(rayon);
 		this.classePremiere= classePremiere;
@@ -56,6 +56,19 @@ public class Avion implements Serializable {
 	}
 	
 	// mutateurs
+	public void setType(String unType) {
+		if (unType.length() == 20) {
+			this.type= unType;
+		}else if (unType.length() > 20) {
+			this.type= unType.substring(0, 20);
+		}else if (unType.length() < 20){
+			while (unType.length() != 20) {
+				unType += " ";
+			}
+			this.type= unType;
+		}
+	}
+	
 	public void setPlaces(int places) {
 		if (places > 0) {
 			this.places= places;
@@ -74,7 +87,25 @@ public class Avion implements Serializable {
 		}
 	}
 	
-	// autres méthodes
+	// autres mÃ©thodes
+	public String affichageJTA() {
+		String rep= this.num+"\t\t"+this.type+"\t\t"+this.places+"\t\t"+this.rayon+"\t\t";
+	    rep += this.classePremiere? "Oui\t\t\t" : "Non\t\t\t";
+	    rep += this.classeAffaires? "Oui\t\t\t" : "Non\t\t\t";
+	    rep += this.classeEconomique? "Oui\n" : "Non\n";
+	    return rep;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Avion autreAvion= (Avion) obj;
+		if (this.num == autreAvion.getNum()) {
+				return true;
+		}else {
+			return false;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return String.valueOf(this.num);
