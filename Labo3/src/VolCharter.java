@@ -85,9 +85,15 @@ public class VolCharter extends Vol {
 	// autres méthodes
 	@Override
 	public String toString() {
-		return super.toString()+this.reservable+"\t"+this.repas+"\t"+
-	           this.bar+"\t"+this.servicesPay+"\t"+this.console+"\t"+
-			   this.wifi+"\t"+this.alimentation+"\n";
+		String rep= super.toString();
+	    rep += this.reservable? "Oui\t\t" : "Non\t\t";
+	    rep += this.repas? "Oui\t\t" : "Non\t\t";
+	    rep += this.bar? "Oui\t\t" :  "Non\t\t";
+	    rep += this.servicesPay? "Oui\t\t\t" : "Non\t\t\t";
+	    rep += this.console? "Oui\t\t" : "Non\t\t";
+	    rep += this.wifi? "Oui\t\t" : "Non\t\t";
+	    rep += this.alimentation? "Oui\n" : "Non\n";
+	    return rep;
 	}
 	
 }

@@ -26,10 +26,30 @@ public class GestionVols {
 						switch (choixListe) {
 							case 1: 
 								listerTous();
+								JOptionPane.showMessageDialog(null, sp, null, JOptionPane.PLAIN_MESSAGE);
+								break;
+							case 2: 
+								listerVolsReguliers();
+								JOptionPane.showMessageDialog(null, sp, null, JOptionPane.PLAIN_MESSAGE);
+								break;
+							case 3: 
+								listerVolsBasPrix();
+								JOptionPane.showMessageDialog(null, sp, null, JOptionPane.PLAIN_MESSAGE);
+								break;
+							case 4: 
+								listerVolsCharter();
+								JOptionPane.showMessageDialog(null, sp, null, JOptionPane.PLAIN_MESSAGE);
+								break;
+							case 5: 
+								listerVolsPrives();
+								JOptionPane.showMessageDialog(null, sp, null, JOptionPane.PLAIN_MESSAGE);
+								break;
+							case 0:
+								break;
 							default:
 								afficherMessage("Choix invalide !");
 						}
-					} while (choix != 0);
+					} while (choixListe != 0);
 					break;
 				default:
 					afficherMessage("Choix invalide !");
@@ -37,40 +57,16 @@ public class GestionVols {
 		} while (choix != 0);
 	}
 	
-	public static void listerVolsReguliers() {
-		Vol unVol;
-		sortie.append("\tLISTE DES VOLS R�GULIERS\n\n");
-		sortie.append("TYPE VOL\tNUM�RO VOL\tDESTINATION\t\tD�PART\t\t"+
-		              "R�SERVATIONS\tNUM�RO AVION\tR�SERVABLE\tREPAS\t\t"+
-				      "SERVICE BAR\tSERVICES PAYANTS\tCONSOLE\t\tWIFI\t\t"+
-		              "PRISE ALIM.\n"); 
-		for (Integer numVol : listeMapVols.keySet()) {
-			unVol= listeMapVols.get(numVol);
-			VolRegulier unVolRegulier;
-			if (unVol instanceof VolRegulier) {
-				unVolRegulier= (VolRegulier) unVol;
-				sortie.append(unVolRegulier.toString());
-			}
-		}
-		sortie.append("\nNombre de vols r�guliers: "+VolRegulier.nbVolsReg);
-	}
-	
-	public static void listerTous() {
-		sortie= new JTextArea(20,100);
-		sortie.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-		sp= new JScrollPane(sortie);
-		listerVolsReguliers();
-		
-		JOptionPane.showMessageDialog(null, sp, null, JOptionPane.PLAIN_MESSAGE);
-	}
-	
 	private static void afficherMessage(String msg) {
 		JOptionPane.showMessageDialog(null, msg, "MESSAGES", JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	private static int menuChoixListe() {
-		String contenu = "1. Tous\n2. Vols R�guliers\n3. Vols Bas-Prix\n"+
-	                     "4. Vols Charter\n5. Vols Priv�s\n0. Terminer\n\n";
+		sortie= new JTextArea(20,100);
+		sortie.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+		sp= new JScrollPane(sortie);
+		String contenu = "1. Tous\n2. Vols Réguliers\n3. Vols Bas-Prix\n"+
+	                     "4. Vols Charter\n5. Vols Privés\n0. Terminer\n\n";
 		contenu += "Entrez votre choix: ";
 		return Integer.parseInt(
 			   JOptionPane.showInputDialog(
@@ -79,7 +75,7 @@ public class GestionVols {
 	
 	private static int menuGeneral() {
 		String contenu = "1. Liste des vols\n2. Ajout d'un vol\n3. Retrait d'un vol\n"+
-	                     "4. Modification de la date de d�part\n5. R�servation d'un vol\n"+
+	                     "4. Modification de la date de départ\n5. Réservation d'un vol\n"+
 				         "0. Terminer\n\n";
 		contenu += "Entrez votre choix: ";
 		return Integer.parseInt(
@@ -139,6 +135,85 @@ public class GestionVols {
 		});
 	}
 	
+	public static void listerVolsPrives() {
+		Vol unVol;
+		sortie.append("\t\t\t\t\tLISTE DES VOLS PRIVÉS\n\n");
+		sortie.append("TYPE VOL\tNUMÉRO VOL\tDESTINATION\t\tDÉPART\t\t"+
+		              "RÉSERVATIONS\tNUMÉRO AVION\tRÉSERVABLE\tREPAS\t\t"+
+				      "SERVICE BAR\tSERVICES PAYANTS\tCONSOLE\t\tWIFI\t\t"+
+		              "PRISE ALIM.\n"); 
+		for (Integer numVol : listeMapVols.keySet()) {
+			unVol= listeMapVols.get(numVol);
+			VolPrive unVolPrive;
+			if (unVol instanceof VolPrive) {
+				unVolPrive= (VolPrive) unVol;
+				sortie.append(unVolPrive.toString());
+			}
+		}
+		sortie.append("\nNombre de vols privés: "+VolPrive.nbVolsPV+"\n\n\n");
+	}
+	
+	public static void listerVolsCharter() {
+		Vol unVol;
+		sortie.append("\t\t\t\t\tLISTE DES VOLS CHARTER\n\n");
+		sortie.append("TYPE VOL\tNUMÉRO VOL\tDESTINATION\t\tDÉPART\t\t"+
+		              "RÉSERVATIONS\tNUMÉRO AVION\tRÉSERVABLE\tREPAS\t\t"+
+				      "SERVICE BAR\tSERVICES PAYANTS\tCONSOLE\t\tWIFI\t\t"+
+		              "PRISE ALIM.\n"); 
+		for (Integer numVol : listeMapVols.keySet()) {
+			unVol= listeMapVols.get(numVol);
+			VolCharter unVolCharter;
+			if (unVol instanceof VolCharter) {
+				unVolCharter= (VolCharter) unVol;
+				sortie.append(unVolCharter.toString());
+			}
+		}
+		sortie.append("\nNombre de vols charter: "+VolCharter.nbVolsCH+"\n\n\n");
+	}
+	
+	public static void listerVolsBasPrix() {
+		Vol unVol;
+		sortie.append("\t\t\t\t\tLISTE DES VOLS BAS-PRIX\n\n");
+		sortie.append("TYPE VOL\tNUMÉRO VOL\tDESTINATION\t\tDÉPART\t\t"+
+		              "RÉSERVATIONS\tNUMÉRO AVION\tRÉSERVABLE\tREPAS\t\t"+
+				      "SERVICE BAR\tSERVICES PAYANTS\tCONSOLE\t\tWIFI\t\t"+
+		              "PRISE ALIM.\n"); 
+		for (Integer numVol : listeMapVols.keySet()) {
+			unVol= listeMapVols.get(numVol);
+			VolBasPrix unVolBasPrix;
+			if (unVol instanceof VolBasPrix) {
+				unVolBasPrix= (VolBasPrix) unVol;
+				sortie.append(unVolBasPrix.toString());
+			}
+		}
+		sortie.append("\nNombre de vols bas-prix: "+VolBasPrix.nbVolsBP+"\n\n\n");
+	}
+	
+	public static void listerVolsReguliers() {
+		Vol unVol;
+		sortie.append("\t\t\t\t\tLISTE DES VOLS RÉGULIERS\n\n");
+		sortie.append("TYPE VOL\tNUMÉRO VOL\tDESTINATION\t\tDÉPART\t\t"+
+		              "RÉSERVATIONS\tNUMÉRO AVION\tRÉSERVABLE\tREPAS\t\t"+
+				      "SERVICE BAR\tSERVICES PAYANTS\tCONSOLE\t\tWIFI\t\t"+
+		              "PRISE ALIM.\n"); 
+		for (Integer numVol : listeMapVols.keySet()) {
+			unVol= listeMapVols.get(numVol);
+			VolRegulier unVolRegulier;
+			if (unVol instanceof VolRegulier) {
+				unVolRegulier= (VolRegulier) unVol;
+				sortie.append(unVolRegulier.toString());
+			}
+		}
+		sortie.append("\nNombre de vols réguliers: "+VolRegulier.nbVolsReg+"\n\n\n");
+	}
+	
+	public static void listerTous() {
+		listerVolsReguliers();
+		listerVolsBasPrix();
+		listerVolsCharter();
+		listerVolsPrives();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static void chargerVols() {
 		try{
@@ -151,7 +226,7 @@ public class GestionVols {
 				instancierVolsSpecialises(listeAttributs);
 			}
 		}catch(Exception e){
-			System.out.println("Probl�me");
+			System.out.println("Problème");
 		}
 	}
 	
