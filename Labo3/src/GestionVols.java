@@ -14,6 +14,9 @@ public class GestionVols {
 	static JScrollPane sp;
 
 	public static void main(String[] args) throws Exception {
+		UIManager.put("OptionPane.cancelButtonText", "Annuler");
+		UIManager.put("OptionPane.noButtonText", "Non");
+		UIManager.put("OptionPane.yesButtonText", "Oui");
 		chargerFlotte();
 		chargerVols();
 		int choix, choixListe, choixType;
@@ -61,6 +64,8 @@ public class GestionVols {
 							case 4:
 								ajouterVol(choixType);
 								break;
+							case 0:
+								break;
 							default:
 								afficherMessage("Choix invalide !");
 						}
@@ -107,56 +112,22 @@ public class GestionVols {
 		       null, contenu, COMPAGNIE, JOptionPane.PLAIN_MESSAGE));
 	}
 	
-	private static void instancierVolsSpecialises(ArrayList<ArrayList<String>> listeAttributs) {
-		listeAttributs.forEach((donneesVol) -> {
-			String elemsDate[]= new String[3];
-		    elemsDate= donneesVol.get(3).split(" ");
-		    Date dateInstance= new Date(Integer.parseInt(elemsDate[0]), Integer.parseInt(elemsDate[1]),
-                                        Integer.parseInt(elemsDate[2]));
-		    Avion avionInstance= listeFlotte.get(Integer.parseInt(donneesVol.get(5))-1);
-			int numVol= Integer.parseInt(donneesVol.get(1));
-			if (donneesVol.get(0).equalsIgnoreCase("R")) {
-				listeMapVols.put(numVol, new VolRegulier(donneesVol.get(0).charAt(0), numVol, donneesVol.get(2),
-						                                 dateInstance, Integer.parseInt(donneesVol.get(4)),
-						                                 avionInstance, Boolean.parseBoolean(donneesVol.get(6)), 
-						                                 Boolean.parseBoolean(donneesVol.get(7)),
-						                                 Boolean.parseBoolean(donneesVol.get(8)),
-						                                 Boolean.parseBoolean(donneesVol.get(9)),
-						                                 Boolean.parseBoolean(donneesVol.get(10)),
-						                                 Boolean.parseBoolean(donneesVol.get(11)),
-						                                 Boolean.parseBoolean(donneesVol.get(12))));
-			} else if (donneesVol.get(0).equalsIgnoreCase("B")) {
-				listeMapVols.put(numVol, new VolBasPrix(donneesVol.get(0).charAt(0), numVol, donneesVol.get(2),
-														dateInstance, Integer.parseInt(donneesVol.get(4)),
-														avionInstance, Boolean.parseBoolean(donneesVol.get(6)), 
-														Boolean.parseBoolean(donneesVol.get(7)),
-														Boolean.parseBoolean(donneesVol.get(8)),
-														Boolean.parseBoolean(donneesVol.get(9)),
-														Boolean.parseBoolean(donneesVol.get(10)),
-														Boolean.parseBoolean(donneesVol.get(11)),
-														Boolean.parseBoolean(donneesVol.get(12))));
-			} else if (donneesVol.get(0).equalsIgnoreCase("C")) {
-				listeMapVols.put(numVol, new VolCharter(donneesVol.get(0).charAt(0), numVol, donneesVol.get(2),
-														dateInstance, Integer.parseInt(donneesVol.get(4)),
-														avionInstance, Boolean.parseBoolean(donneesVol.get(6)), 
-														Boolean.parseBoolean(donneesVol.get(7)),
-														Boolean.parseBoolean(donneesVol.get(8)),
-														Boolean.parseBoolean(donneesVol.get(9)),
-														Boolean.parseBoolean(donneesVol.get(10)),
-														Boolean.parseBoolean(donneesVol.get(11)),
-														Boolean.parseBoolean(donneesVol.get(12))));
-			} else if (donneesVol.get(0).equalsIgnoreCase("P")) {
-				listeMapVols.put(numVol, new VolPrive(donneesVol.get(0).charAt(0), numVol, donneesVol.get(2),
-													  dateInstance, Integer.parseInt(donneesVol.get(4)),
-													  avionInstance, Boolean.parseBoolean(donneesVol.get(6)), 
-													  Boolean.parseBoolean(donneesVol.get(7)),
-													  Boolean.parseBoolean(donneesVol.get(8)),
-													  Boolean.parseBoolean(donneesVol.get(9)),
-													  Boolean.parseBoolean(donneesVol.get(10)),
-													  Boolean.parseBoolean(donneesVol.get(11)),
-													  Boolean.parseBoolean(donneesVol.get(12))));
-			}
-		});
+	private static void instancierVolSpecialise(char type, int num, String dest, Date date, int res, Avion avion, 
+			                                    boolean opt1, boolean opt2, boolean opt3, boolean opt4, 
+			                                    boolean opt5, boolean opt6, boolean opt7) {
+		if (type == 'R') {
+			listeMapVols.put(num, new VolRegulier(type, num, dest, date, res, avion, opt1, opt2, opt3, opt4, 
+					                              opt5, opt6, opt7));
+		} else if (type == 'B') {
+			listeMapVols.put(num, new VolBasPrix(type, num, dest, date, res, avion, opt1, opt2, opt3, opt4, 
+                                                 opt5, opt6, opt7));
+		} else if (type == 'C') {
+			listeMapVols.put(num, new VolCharter(type, num, dest, date, res, avion, opt1, opt2, opt3, opt4, 
+                                                 opt5, opt6, opt7));
+        } else if (type == 'P') {
+			listeMapVols.put(num, new VolPrive(type, num, dest, date, res, avion, opt1, opt2, opt3, opt4, 
+                                               opt5, opt6, opt7));
+        }
 	}
 	
 	private static int obtenirNumVolValide() {
@@ -245,9 +216,65 @@ public class GestionVols {
 		return avionChoisi;
 	}
 	
+	private static int confirmerReservation(int siegesDisponibles) {
+		int nbRes;
+		String msg= "Il y a présentement "+siegesDisponibles+" siège(s) libre(s) pour ce vol\n\n";
+		msg += "Entrez le nombre de sièges que vous désirez réserver: ";
+		do {
+			nbRes= Integer.parseInt(
+				   JOptionPane.showInputDialog(
+				   null, msg, "RÉSERVATION DES SIÈGES", JOptionPane.PLAIN_MESSAGE));
+			if (nbRes > siegesDisponibles) {
+				afficherMessage("Siège(s) disponible(s) insuffisant pour cette réservation !");
+			}
+		} while (nbRes > siegesDisponibles);
+		return nbRes;
+	}
+	
+	private static boolean obtenirOptionBooleen(int opt) {
+		if (opt == JOptionPane.YES_OPTION) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	private static boolean[] confirmerOptionsVol() {
+		boolean[] opt= new boolean[7];
+		int reservable= JOptionPane.showConfirmDialog(
+			            null, "Est-il possible de réserver son siège pour ce vol?", 
+			            "AJOUT D'UN VOL", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+		opt[0]= obtenirOptionBooleen(reservable);
+		int repas= JOptionPane.showConfirmDialog(
+	               null, "Est-ce que les repas sont fournis pendant ce vol?", 
+	               "AJOUT D'UN VOL", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+		opt[1]= obtenirOptionBooleen(repas);
+		int bar= JOptionPane.showConfirmDialog(
+	              null, "Est-ce que le service au bar est ouvert pendant ce vol?", 
+	              "AJOUT D'UN VOL", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+		opt[2]= obtenirOptionBooleen(bar);
+		int servicesP= JOptionPane.showConfirmDialog(
+	                   null, "Est-ce que les services payants habituels sont disponibles pendant ce vol?", 
+	                   "AJOUT D'UN VOL", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+		opt[3]= obtenirOptionBooleen(servicesP);
+		int console= JOptionPane.showConfirmDialog(
+                     null, "Est-ce que la console de divertissement est disponible pendant ce vol?", 
+                     "AJOUT D'UN VOL", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+	    opt[4]= obtenirOptionBooleen(console);
+	    int wifi= JOptionPane.showConfirmDialog(
+                  null, "Est-ce que le WiFi est disponible pendant ce vol?", 
+                  "AJOUT D'UN VOL", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+        opt[5]= obtenirOptionBooleen(wifi);
+        int prise= JOptionPane.showConfirmDialog(
+                   null, "Est-ce qu'une prise d'alimentation est disponible pendant ce vol?", 
+                   "AJOUT D'UN VOL", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+        opt[6]= obtenirOptionBooleen(prise);
+        return opt;
+	}
+	
 	public static void ajouterVol(int choixType) {
 		int numVol= obtenirNumVolValide();
-		char typeVol;
+		char typeVol = 'R';
 		switch (choixType) {
 			case 1: 
 				typeVol= 'R';
@@ -263,9 +290,15 @@ public class GestionVols {
 				break;
 		}
 		String dest= JOptionPane.showInputDialog(
-				     null, "Entrez la destination", "AJOUT D'UN VOL", JOptionPane.PLAIN_MESSAGE);
+				     null, "Entrez la destination: ", "AJOUT D'UN VOL", JOptionPane.PLAIN_MESSAGE);
 		Date depart= obtenirDateValide();
 		Avion avion= obtenirAvionValide(depart);
+		int siegesDisponibles= avion.getPlaces();
+		int nbRes= confirmerReservation(siegesDisponibles);
+		boolean[] opt= new boolean[7];
+		opt= confirmerOptionsVol();
+		instancierVolSpecialise(typeVol, numVol, dest, depart, nbRes, avion, opt[0], opt[1], opt[2],
+				                opt[3], opt[4], opt[5], opt[6]);
 	}
 	
 	public static void listerVolsPrives() {
@@ -356,7 +389,26 @@ public class GestionVols {
 			} else {
 				listeMapVols= new HashMap<Integer, Vol>();
 				ArrayList<ArrayList<String>> listeAttributs = Utilitaires.chargerFichierTexte(FICHIER_VOLS_TEXTE, ";");
-				instancierVolsSpecialises(listeAttributs);
+				listeAttributs.forEach((donneesVol) -> {
+					char type= donneesVol.get(0).charAt(0);
+					int numVol= Integer.parseInt(donneesVol.get(1));
+					String dest= donneesVol.get(2);
+					String elemsDate[]= new String[3];
+				    elemsDate= donneesVol.get(3).split(" ");
+				    Date dateInstance= new Date(Integer.parseInt(elemsDate[0]), Integer.parseInt(elemsDate[1]),
+		                                        Integer.parseInt(elemsDate[2]));
+				    int res= Integer.parseInt(donneesVol.get(4));
+				    Avion avionInstance= listeFlotte.get(Integer.parseInt(donneesVol.get(5))-1);
+					boolean opt1= Boolean.parseBoolean(donneesVol.get(6));
+					boolean opt2= Boolean.parseBoolean(donneesVol.get(7));
+					boolean opt3= Boolean.parseBoolean(donneesVol.get(8));
+					boolean opt4= Boolean.parseBoolean(donneesVol.get(9));
+					boolean opt5= Boolean.parseBoolean(donneesVol.get(10));
+					boolean opt6= Boolean.parseBoolean(donneesVol.get(11));
+					boolean opt7= Boolean.parseBoolean(donneesVol.get(12));
+				    instancierVolSpecialise(type, numVol, dest, dateInstance, res, avionInstance, opt1, opt2,
+				    		                opt3, opt4, opt5, opt6, opt7);
+			    });
 			}
 		}catch(Exception e){
 			System.out.println("Problème");
