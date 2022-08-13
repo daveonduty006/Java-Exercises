@@ -71,6 +71,9 @@ public class GestionVols {
 						}
 					} while (choixType != 0);
 					break;
+				case 3:
+					retirerVol();
+					break;
 				default:
 					afficherMessage("Choix invalide !");
 			}
@@ -180,11 +183,11 @@ public class GestionVols {
 		return depart;
 	}
 	
-	public static Avion obtenirAvionValide(Date depart) {
+	private static Avion obtenirAvionValide(Date depart) {
 		int choixAvion;
 		boolean avionDisponible;
 		Avion avionChoisi;
-		sortie= new JTextArea(20, 80);
+		sortie= new JTextArea(20, 60);
 		sortie.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		sortie.append("NUMÉRO AVION\tTYPE AVION\t\t\tSIÈGES\t\tRAYON D'ACTION\t\t"+
 		              "CLASSE PREMIÈRE\t\tCLASSE AFFAIRE\t\tCLASSE ÉCONOMIQUE\n");
@@ -272,6 +275,42 @@ public class GestionVols {
         return opt;
 	}
 	
+	public static void retirerVol() {
+		int numVol= Integer.parseInt(
+				    JOptionPane.showInputDialog(
+				    null, "Entrez le numéro du vol: ", "RETRAIT D'UN VOL", JOptionPane.PLAIN_MESSAGE));
+		if (listeMapVols.containsKey(numVol)) {
+			String infoVol= listeMapVols.get(numVol).type+"......"+listeMapVols.get(numVol).num+"......"+
+					        listeMapVols.get(numVol).destination.trim()+"......"+
+					        listeMapVols.get(numVol).depart+"......"+
+					        listeMapVols.get(numVol).res+"......"+listeMapVols.get(numVol).avion+"\n\n";
+			infoVol += "Voulez-vous vraiment retirer ce vol ?";
+			int confirmerRetrait= JOptionPane.showConfirmDialog(
+		                          null, infoVol, "RETRAIT D'UN VOL", 
+		                          JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+			if (confirmerRetrait == JOptionPane.YES_OPTION) {
+				switch (listeMapVols.get(numVol).type) {
+					case 'R': 
+						VolRegulier.nbVolsReg -= 1;
+						break;
+					case 'B': 
+						VolBasPrix.nbVolsBP -= 1;
+						break;
+					case 'C': 
+						VolCharter.nbVolsCH -= 1;
+						break;
+					case 'P': 
+						VolPrive.nbVolsPV -= 1;
+						break;
+				}
+				listeMapVols.remove(numVol);
+				afficherMessage("Vol numéro "+numVol+" retiré !");
+			}
+		} else {
+			afficherMessage("Vol introuvable !");
+		}
+	}
+	
 	public static void ajouterVol(int choixType) {
 		int numVol= obtenirNumVolValide();
 		char typeVol = 'R';
@@ -297,8 +336,17 @@ public class GestionVols {
 		int nbRes= confirmerReservation(siegesDisponibles);
 		boolean[] opt= new boolean[7];
 		opt= confirmerOptionsVol();
-		instancierVolSpecialise(typeVol, numVol, dest, depart, nbRes, avion, opt[0], opt[1], opt[2],
-				                opt[3], opt[4], opt[5], opt[6]);
+		String infoVol= typeVol+"......"+numVol+"......"+dest+"......"+depart+"......"+nbRes+"......"+
+		                avion+"\n\n";
+        infoVol += "Voulez-vous vraiment ajouter ce vol ?";
+        int confirmerAjout= JOptionPane.showConfirmDialog(
+                      		null, infoVol, "AJOUT D'UN VOL", 
+                      		JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+        if (confirmerAjout == JOptionPane.YES_OPTION) {
+        	instancierVolSpecialise(typeVol, numVol, dest, depart, nbRes, avion, opt[0], opt[1], opt[2],
+				                    opt[3], opt[4], opt[5], opt[6]);
+        	afficherMessage("Vol numéro "+numVol+" créé !");
+        }
 	}
 	
 	public static void listerVolsPrives() {
