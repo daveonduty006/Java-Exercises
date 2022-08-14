@@ -74,10 +74,21 @@ public class GestionVols {
 				case 3:
 					retirerVol();
 					break;
+				case 4:
+					modifierDepart();
+					break;
+				case 5:
+					entrerReservation();
+					break;
+				case 0:
+					Utilitaires.sauvegarderFichierObjets(listeMapVols, FICHIER_VOLS_OBJ);
+					afficherMessage("Merci d'avoir utilisé notre système !");
+					break;
 				default:
 					afficherMessage("Choix invalide !");
 			}
 		} while (choix != 0);
+		System.exit(0);
 	}
 	
 	private static void afficherMessage(String msg) {
@@ -107,7 +118,7 @@ public class GestionVols {
 	
 	private static int menuGeneral() {
 		String contenu = "1. Liste des vols\n2. Ajout d'un vol\n3. Retrait d'un vol\n"+
-	                     "4. Modification de la date de départ\n5. Réservation d'un vol\n"+
+	                     "4. Modification du départ d'un vol\n5. Réservation d'un vol\n"+
 				         "0. Terminer\n\n";
 		contenu += "Entrez votre choix: ";
 		return Integer.parseInt(
@@ -273,6 +284,58 @@ public class GestionVols {
                    "AJOUT D'UN VOL", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
         opt[6]= obtenirOptionBooleen(prise);
         return opt;
+	}
+	
+	public static void entrerReservation() {
+		int numVol= Integer.parseInt(
+		        JOptionPane.showInputDialog(
+		        null, "Entrez le numéro du vol: ", "AJOUT D'UNE RÉSERVATION", JOptionPane.PLAIN_MESSAGE));
+		if (listeMapVols.containsKey(numVol)) {
+			int capaciteTotale= listeMapVols.get(numVol).avion.getPlaces();
+			if (listeMapVols.get(numVol).res < capaciteTotale) {
+				String infoVol= listeMapVols.get(numVol).type+"......"+listeMapVols.get(numVol).num+"......"+
+								listeMapVols.get(numVol).destination.trim()+"......"+
+								listeMapVols.get(numVol).depart+"......"+
+								listeMapVols.get(numVol).res+"......"+listeMapVols.get(numVol).avion+"\n\n";
+				infoVol += "Voulez-vous vraiment ajouter une réservation pour ce vol ?";
+				int confirmerRes= JOptionPane.showConfirmDialog(
+                 		  		  null, infoVol, "AJOUT D'UNE RÉSERVATION", 
+           				          JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+				if (confirmerRes == JOptionPane.YES_OPTION) {
+					int siegesDisponibles= capaciteTotale - listeMapVols.get(numVol).getRes();
+					int nbRes= confirmerReservation(siegesDisponibles);
+					listeMapVols.get(numVol).res += nbRes;
+					afficherMessage(nbRes+" siège(s) réservé(s) pour le vol "+numVol+" !");
+				}
+			} else {
+				afficherMessage("Vol complet !");
+			}
+		} else {
+			afficherMessage("Vol introuvable !");
+		}
+	}
+	
+	public static void modifierDepart() {
+		int numVol= Integer.parseInt(
+			        JOptionPane.showInputDialog(
+			        null, "Entrez le numéro du vol: ", "MODIFICATION DU DÉPART D'UN VOL", JOptionPane.PLAIN_MESSAGE));
+		if (listeMapVols.containsKey(numVol)) {
+			String infoVol= listeMapVols.get(numVol).type+"......"+listeMapVols.get(numVol).num+"......"+
+					        listeMapVols.get(numVol).destination.trim()+"......"+
+					        listeMapVols.get(numVol).depart+"......"+
+					        listeMapVols.get(numVol).res+"......"+listeMapVols.get(numVol).avion+"\n\n";
+			infoVol += "Voulez-vous vraiment changer la date de départ de ce vol ?";
+			int confirmerModification= JOptionPane.showConfirmDialog(
+		                               null, infoVol, "MODIFICATION DU DÉPART D'UN VOL", 
+		                               JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+			if (confirmerModification == JOptionPane.YES_OPTION) {
+				Date nouveauDepart= obtenirDateValide();
+				listeMapVols.get(numVol).depart= nouveauDepart;
+				afficherMessage("Départ du vol numéro "+numVol+" modifié pour le "+nouveauDepart+" !");
+			}
+		} else {
+			afficherMessage("Vol introuvable !");
+		}
 	}
 	
 	public static void retirerVol() {
