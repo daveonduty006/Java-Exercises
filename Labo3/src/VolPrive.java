@@ -82,7 +82,7 @@ public class VolPrive extends Vol {
 		this.alimentation= valeur;
 	}
 	
-	// autres mÃ©thodes
+	// autres méthodes
 	@Override
 	public String toString() {
 		String rep= super.toString();
