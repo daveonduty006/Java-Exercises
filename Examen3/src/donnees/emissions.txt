@@ -1,0 +1,14 @@
+R;1234;Le monde à notre portée;14;16;Culturel;Stéphane Bureau
+F;5678;Salle de cinéma;20;23;Pulp Fiction;1994;Quentin Tarantino;true
+F;3434;Salle de cinéma;20;23;Once Upon a Time in Hollywood;2021;Quentin Tarantino;false
+R;2353;Je veux savoir;14;16;Information;Jean-François Lépine
+F;8765;Salle de cinéma;20;23;Vertigo;1958;Alfred Hitchcock;true
+R;9090;Enquêtes criminelles;18;19;Documentaire;Aurélie Vaquier
+R;9191;Enquêtes criminelles;18;19;Documentaire;Marie-Maude Denis
+F;2211;Salle de cinéma;20;23;Alien;1979;Ridley Scott;true
+F;1122;Salle de cinéma;20;23;Top Gun: Maverick;2021;Joseph Kosinski;false
+F;9091;Salle de cinéma;20;23;Decision to Leave;2021;Park Chan-wook;false
+F;5251;Salle de cinéma;20;23;1492 Christophe Colomb;1992;Ridley Scott;true
+F;5252;Salle de cinéma;20;23;Blade Runner;1982;Ridley Scott;true
+R;7573;Je veux savoir;14;16;Information;Jean-François Lépine
+R;7574;Je veux savoir;14;16;Information;Jean-François Lépine
