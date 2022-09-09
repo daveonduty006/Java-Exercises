@@ -8,6 +8,6 @@
     <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
     <fullyQualifiedTypeName name="javax.swing.JFrame"/>
-    <fullyQualifiedTypeName name="java.awt.Color"/>
     <fullyQualifiedTypeName name="javax.swing.border.Border"/>
+    <fullyQualifiedTypeName name="java.awt.Color"/>
 </qualifiedTypeNameHistroy>
