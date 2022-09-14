@@ -6,6 +6,8 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\e2295349\Desktop\Java-Exercises\01-FichiersAccessDirect"/>
+			<item value="C:\Users\e2295349\Desktop\Java-Exercises"/>
 			<item value="C:\Users\David\Desktop\Labo2-Java"/>
 			<item value="C:\Users\e2295349\Desktop\Labo2-Java"/>
 			<item value="C:\Users\David\eclipse-workspace"/>
@@ -19,8 +21,8 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
-			<item value="C:\Users\David\Desktop\Java-Exercises"/>
 			<item value="C:\Users\e2295349\Desktop\Java-Exercises"/>
+			<item value="C:\Users\David\Desktop\Java-Exercises"/>
 			<item value="C:\Users\David\eclipse-workspace"/>
 			<item value="U:\920_conceptProg2\Java-Exercises"/>
 			<item value="U:\920_conceptProg2\Java-Exercises\Labo2"/>
