@@ -1,9 +1,9 @@
 import java.io.*;
-import java.util.*;
 
 public class Exercice1 {
 	
 	final static int TAILLE_ENREG= 52;
+	final static int INTERVAL_CLE= 100;
 	static int compteur;
 	static String nom;
 	static String prenom;
@@ -56,8 +56,8 @@ public class Exercice1 {
         System.exit(0);  
 	}
 	
-	private static long getAdresse(int cle) {
-		long adresse= (cle/100-1) * TAILLE_ENREG;
+	private static long recupererAdresse(int cle) {
+		long adresse= (cle/INTERVAL_CLE-1) * TAILLE_ENREG;
 		return adresse;
 	}
 	
@@ -93,12 +93,15 @@ public class Exercice1 {
 		String nom, prenom;
 		double sal;
 		donnee.seek(0);
-		for (int i=0; i < compteur/100; i++) {
-			num= donnee.readInt();
-			nom= donnee.readUTF();
-			prenom= donnee.readUTF();
-			sal= donnee.readDouble();
-			System.out.println(num+' '+nom+' '+prenom+' '+sal);			
+		for (int i=0; i < compteur/INTERVAL_CLE; i++) {
+            try{
+				num= donnee.readInt();
+				nom= donnee.readUTF();
+				prenom= donnee.readUTF();
+				sal= donnee.readDouble();
+				System.out.println(num+' '+nom+' '+prenom+' '+sal);	
+            }catch(EOFException e)
+            	{}
 		}
 		System.out.println();
 	}
@@ -106,7 +109,7 @@ public class Exercice1 {
 	public static void ajouterEnreg() throws IOException {
         System.out.println();                          
         donnee.seek(donnee.length());
-        compteur+=100;                  
+        compteur+= INTERVAL_CLE;                  
         try{
         	donnee.writeInt(compteur);
             System.out.println("Entrez le nom du nouvel employé: ");
@@ -122,8 +125,11 @@ public class Exercice1 {
 	
 	public static void rechercherEnreg() throws IOException {
         System.out.println();  
+        int num;
         System.out.println("Entrez le numéro de l'employé recherché: ");
-        int num= Integer.parseInt(in.readLine());
+        do{
+        	num= Integer.parseInt(in.readLine());
+        }while(num % INTERVAL_CLE);
 	}
 	
 	
