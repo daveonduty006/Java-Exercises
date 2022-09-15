@@ -5,11 +5,9 @@ public class Exercice1 {
 	
 	final static int TAILLE_ENREG= 52;
 	static int compteur;
-	static int num;
 	static String nom;
 	static String prenom;
 	static double salaire;
-	static Map<Integer,Integer> MapEnregs;
 	static RandomAccessFile donnee;
 	static BufferedReader in;
 	
@@ -35,7 +33,7 @@ public class Exercice1 {
             }while(choix < 1 || choix > 6);
 		switch(choix) {
 			case 1:
-				//afficherEnregs();
+				afficherEnregs();
 				break;
 			case 2:
 				//ajouterEnreg();
@@ -58,24 +56,74 @@ public class Exercice1 {
         System.exit(0);  
 	}
 	
+	private static long getAdresse(int cle) {
+		long adresse= (cle/100-1) * TAILLE_ENREG;
+		return adresse;
+	}
+	
+	private static String formatterString(String str) {
+		if(str.length() < 10) {
+			str= String.format("%-10s", str);
+		}else if(str.length() > 10) {
+			str= str.substring(0,10);
+		}
+		return str;
+	}
+	
 	public static void chargerEnregs() throws IOException {
 		File fic= new File("employe.bin");
 		if (fic.exists()) { 
 			{}
 		}else{
 			donnee= new RandomAccessFile(fic, "rw");
-			compteur= 0;
-			num= 100;
-			nom= "Tavares   ";
-			prenom= "Antonio   ";
+			compteur= 100;
+			nom= formatterString("Tavares");
+			prenom= formatterString("Antonio");
 			salaire= 5500.00;
-		    donnee.writeInt(num);
+		    donnee.writeInt(compteur);
 		    donnee.writeUTF(nom);
 		    donnee.writeUTF(prenom);
 		    donnee.writeDouble(salaire);
-			MapEnregs= new TreeMap<>();
-			MapEnregs.put(num, compteur*TAILLE_ENREG);
 		}
+	}
+	
+	public static void afficherEnregs() throws IOException {
+		System.out.println();
+		int num;
+		String nom, prenom;
+		double sal;
+		donnee.seek(0);
+		for (int i=0; i < compteur/100; i++) {
+			num= donnee.readInt();
+			nom= donnee.readUTF();
+			prenom= donnee.readUTF();
+			sal= donnee.readDouble();
+			System.out.println(num+' '+nom+' '+prenom+' '+sal);			
+		}
+		System.out.println();
+	}
+	
+	public static void ajouterEnreg() throws IOException {
+        System.out.println();                          
+        donnee.seek(donnee.length());
+        compteur+=100;                  
+        try{
+        	donnee.writeInt(compteur);
+            System.out.println("Entrez le nom du nouvel employé: ");
+            donnee.writeUTF(formatterString(in.readLine()));
+            System.out.println("Entrez le prénom du nouvel employé: ");            
+            donnee.writeUTF(formatterString(in.readLine()));
+            System.out.println("Entrez le salaire du nouvel employé: ");
+            donnee.writeDouble(Double.parseDouble(in.readLine()));
+        }catch(EOFException e)
+            {}                     
+        System.out.println();             
+	}
+	
+	public static void rechercherEnreg() throws IOException {
+        System.out.println();  
+        System.out.println("Entrez le numéro de l'employé recherché: ");
+        int num= Integer.parseInt(in.readLine());
 	}
 	
 	
