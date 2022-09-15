@@ -21,8 +21,8 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
-			<item value="C:\Users\e2295349\Desktop\Java-Exercises"/>
 			<item value="C:\Users\David\Desktop\Java-Exercises"/>
+			<item value="C:\Users\e2295349\Desktop\Java-Exercises"/>
 			<item value="C:\Users\David\eclipse-workspace"/>
 			<item value="U:\920_conceptProg2\Java-Exercises"/>
 			<item value="U:\920_conceptProg2\Java-Exercises\Labo2"/>
