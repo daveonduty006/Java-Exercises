@@ -3,7 +3,7 @@ import java.io.*;
 public class Exercice1 {
 	
 	final static String FICHIER_BINAIRE= "src/donnees/employes.bin";
-	final static int TAILLE_ENREG= 52;
+	final static int TAILLE_ENREG= 36;
 	final static int INTERVAL_CLE= 100;
 	static int compteur;
 	static RandomAccessFile donnee;
@@ -71,7 +71,7 @@ public class Exercice1 {
 	public static void chargerEnregs() throws IOException {
 		File fic= new File(FICHIER_BINAIRE);
 		if (fic.exists()) { 
-			//
+			donnee= new RandomAccessFile(fic, "rw");
 		}else{
 			donnee= new RandomAccessFile(fic, "rw");
 			compteur= INTERVAL_CLE;
@@ -107,6 +107,7 @@ public class Exercice1 {
 	public static void ajouterEnreg() throws IOException {
         System.out.println();                          
         donnee.seek(donnee.length());
+        System.out.println(donnee.getFilePointer());
         compteur+= INTERVAL_CLE;                  
         try{
         	donnee.writeInt(compteur);
@@ -131,6 +132,7 @@ public class Exercice1 {
         	num= Integer.parseInt(in.readLine());
         }while(num%INTERVAL_CLE != 0 || num == 0);
         donnee.seek(recupererAdresse(num));
+        System.out.println(donnee.getFilePointer());
         try{
         	System.out.println();
 			numero= donnee.readInt();
