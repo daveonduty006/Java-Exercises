@@ -2,12 +2,10 @@ import java.io.*;
 
 public class Exercice1 {
 	
+	final static String FICHIER_BINAIRE= "src/donnees/employes.bin";
 	final static int TAILLE_ENREG= 52;
 	final static int INTERVAL_CLE= 100;
 	static int compteur;
-	static String nom;
-	static String prenom;
-	static double salaire;
 	static RandomAccessFile donnee;
 	static BufferedReader in;
 	
@@ -36,16 +34,16 @@ public class Exercice1 {
 				afficherEnregs();
 				break;
 			case 2:
-				//ajouterEnreg();
+				ajouterEnreg();
 				break;
 			case 3:
-				//modifierEnreg();
+				//modifierSal();
 				break; 
 			case 4:
-				//calculerEnreg();
+				//calculerSalMoyen();
 				break; 
 			case 5:
-				//rechercherEnreg();
+				rechercherEnreg();
 				break; 
 			case 6:
 				donnee.close();
@@ -71,19 +69,19 @@ public class Exercice1 {
 	}
 	
 	public static void chargerEnregs() throws IOException {
-		File fic= new File("employe.bin");
+		File fic= new File(FICHIER_BINAIRE);
 		if (fic.exists()) { 
-			{}
+			//
 		}else{
 			donnee= new RandomAccessFile(fic, "rw");
-			compteur= 100;
-			nom= formatterString("Tavares");
-			prenom= formatterString("Antonio");
-			salaire= 5500.00;
+			compteur= INTERVAL_CLE;
+			String nom= formatterString("Tavares");
+			String prenom= formatterString("Antonio");
+			double sal= 5500;
 		    donnee.writeInt(compteur);
 		    donnee.writeUTF(nom);
 		    donnee.writeUTF(prenom);
-		    donnee.writeDouble(salaire);
+		    donnee.writeDouble(sal);
 		}
 	}
 	
@@ -99,7 +97,7 @@ public class Exercice1 {
 				nom= donnee.readUTF();
 				prenom= donnee.readUTF();
 				sal= donnee.readDouble();
-				System.out.println(num+' '+nom+' '+prenom+' '+sal);	
+				System.out.println(num+" "+nom+" "+prenom+" "+sal);	
             }catch(EOFException e)
             	{}
 		}
@@ -120,16 +118,29 @@ public class Exercice1 {
             donnee.writeDouble(Double.parseDouble(in.readLine()));
         }catch(EOFException e)
             {}                     
-        System.out.println();             
+        System.out.println(); 
 	}
 	
 	public static void rechercherEnreg() throws IOException {
         System.out.println();  
-        int num;
+        int num, numero;
+        String nom, prenom;
+        double sal;
         System.out.println("Entrez le numéro de l'employé recherché: ");
         do{
         	num= Integer.parseInt(in.readLine());
-        }while(num % INTERVAL_CLE);
+        }while(num%INTERVAL_CLE != 0 || num == 0);
+        donnee.seek(recupererAdresse(num));
+        try{
+        	System.out.println();
+			numero= donnee.readInt();
+			nom= donnee.readUTF();
+			prenom= donnee.readUTF();
+			sal= donnee.readDouble();
+			System.out.println(numero+" "+nom+" "+prenom+" "+sal);	
+        }catch(EOFException e)
+        	{}
+        System.out.println();
 	}
 	
 	
