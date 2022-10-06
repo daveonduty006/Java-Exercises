@@ -6,6 +6,7 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\e2295349\Desktop\Java-Exercises\Examen3"/>
 			<item value="C:\Users\David\Desktop\DevApp-Bureau\(10)GUISwing_JOptionPane"/>
 			<item value="C:\Users\David\Desktop\DevApp-Bureau\Labo1"/>
 			<item value="C:\Users\David\Desktop\Java-Exercises"/>
